@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="accountMapper">
+    <resultMap id="accountMap" type="com.laoxu.gamedog.model.Account">
+        <result property="account" column="ACCOUNT" />
+        <result property="password" column="PASSWORD" />
+        <result property="goldCoin" column="GOLD_COIN" />
+        <result property="silverCoin" column="SILVER_COIN" />
+        <result property="privilege" column="PRIVILEGE" />
+        <result property="checksum" column="CHECKSUM" />
+        <result property="updateTime" column="UPDATE_TIME" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.laoxu.gamedog.model.Account">
+      insert into account (
+              account,
+              password,
+              gold_coin,
+              silver_coin,
+              privilege,
+              checksum,
+              update_time
+              )
+      VALUES (
+            #{account},
+            #{password},
+            #{goldCoin},
+            #{silverCoin},
+            #{privilege},
+            #{checksum},
+            #{updateTime}
+          )
+    </insert>
+
+    <update id="upadte" parameterType="com.laoxu.gamedog.model.Account">
+        update account
+        set password=#{password},
+            update_time=#{updateTime}
+        where account=#{account}
+    </update>
+
+    <delete id="delete">
+            DELETE FROM account
+            WHERE account IN
+            <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="accountMap">
+        select account,
+              password,
+              gold_coin,
+              silver_coin,
+              privilege,
+              checksum,
+              update_time
+        from account
+        where account = #{account}
+    </select>
+
+    <select id="count" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        from account
+        where account = #{account}
+    </select>
+
+</mapper>

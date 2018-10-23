@@ -1,5 +1,7 @@
 package com.laoxu.gamedog.model;
 
+import java.util.Date;
+
 /**
  * 游戏账户
  *
@@ -19,6 +21,8 @@ public class Account {
     private int privilege;
     //校验码
     private String checksum;
+    //更新时间
+    private Date updateTime;
 
     public String getAccount() {
         return account;
@@ -66,5 +70,13 @@ public class Account {
 
     public void setChecksum(String checksum) {
         this.checksum = checksum;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

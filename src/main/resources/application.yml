@@ -1,6 +1,7 @@
 server:
-  context-path: /gamedog
-  port: 8888
+  port: 90
+#  servlet:
+#    context-path: /gamedog
 
 debug: true
 
@@ -12,13 +13,17 @@ spring:
     mode: HTML5
 
 # DataSource
-spring:
   datasource:
-    url: jdbc:mysql://119.188.247.170/dl_adb_all?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
-    username: root
-    password: mRHLRjCkPD6X56nP
+    url: ENC(UBXNJOY5m0BaVxwydH4qyqgMu3Sr10cBXa8M2rDYJsPnsB5glF90OAIRbof9HqNU4XJ1P9wFACTG8pu/OMszH4LPR29/mT/SavSUL8W8ZFEbHqqqZzj5RUMcNduNz+fAMF1mW7rifcmofeK8U5vgQlE2S4z5JCNso7idu/ZGRgiqqAuDjqSEBSaJYTfex2AgzCNfLDKDywcRKgpjA/S1S3+S3EkVzecT)
+    username: ENC(yxNeUp8agbpKbx//Ysy3rQ==)
+    password: ENC(eWpq2rO4RbHtGAnP6Uf0iPYtBC7YIP09ZuYd8wnZBDE=)
     driver-class-name: com.mysql.jdbc.Driver
 
 #mybatis
 mybatis:
   mapperLocations: classpath*:mapper/*.xml
+
+#jasypt加密的密匙
+jasypt:
+  encryptor:
+    password: dylan
