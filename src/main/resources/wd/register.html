@@ -3,8 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>用户注册</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/jquery-3.3.1.js"></script>
 </head>
 <body>
+    <!-- 表单 -->
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="account" class="col-md-2">账号：</label>
+                    <div class="col-md-2">
+                        <input type="text" id="account" class="form-control" />
+                    </div>
+                </div>
 
+                <div class="form-group">
+                    <label for="password" class="col-md-2">密码：</label>
+                    <div class="col-md-2">
+                        <input type="password" id="password" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+            <div class="col-md-offset-2">
+                <button type="submit" class="btn btn-primary">注册</button>
+            </div>
+        </div>
+    </form>
 </body>
 </html>
