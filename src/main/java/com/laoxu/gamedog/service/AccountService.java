@@ -7,6 +7,8 @@ import com.laoxu.gamedog.util.MD5;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Map;
+
 /**
  * 账号服务
  *
@@ -33,9 +35,14 @@ public class AccountService extends AbstractService {
         update("accountMapper.update", AccountUtil.getNewAccount(entity));
     }
 
-
+    /**
+     * 根据账号查询
+     * @param account
+     * @return
+     */
     public Account load(String account) {
         return selectOne("accountMapper.load", account);
     }
+
 
 }

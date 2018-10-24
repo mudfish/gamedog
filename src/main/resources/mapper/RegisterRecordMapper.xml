@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="registerRecordMapper">
+    <insert id="insert" parameterType="com.laoxu.gamedog.model.RegisterRecord">
+        insert into IP_LIMIT
+        (ID,IP,REGISTETIME)
+        VALUES
+        (#{id},#{ip},#{registerTime})
+    </insert>
+
+    <select id="selectCountByIp" parameterType="map" resultMap="java.lang.Integer">
+      select count(*)
+        from IP_LIMIT
+        where IP=#{ip}
+        AND DATE_ADD(REGISTETIME, INTERVAL #{limitHour} HOUR) > NOW()
+    </select>
+
+</mapper>
