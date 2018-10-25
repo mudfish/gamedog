@@ -29,3 +29,8 @@ mybatis:
 jasypt:
   encryptor:
     password: dylan
+
+#打印日志
+logging:
+  level:
+    com.laoxu.gamedog.controller: debug

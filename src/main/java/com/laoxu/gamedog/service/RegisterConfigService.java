@@ -19,7 +19,7 @@ public class RegisterConfigService extends AbstractService {
      * @return
      */
     public RegisterConfig load() {
-        return selectOne("registerConfigMapper.load");
+        return selectOne("registerConfigMapper.load","");
     }
 
 

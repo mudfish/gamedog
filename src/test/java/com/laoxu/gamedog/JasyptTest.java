@@ -1,5 +1,7 @@
 package com.laoxu.gamedog;
 
+import com.laoxu.gamedog.model.RegisterConfig;
+import com.laoxu.gamedog.service.RegisterConfigService;
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,6 +24,9 @@ public class JasyptTest {
     @Autowired
     StringEncryptor encryptor;
 
+    @Autowired
+    RegisterConfigService registerConfigService;
+
     @Test
     public void getPass(){
         String url = encryptor.encrypt("jdbc:mysql://119.188.247.170/dl_adb_all?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true");
@@ -32,5 +37,8 @@ public class JasyptTest {
         //System.out.println(password);
         Assert.assertTrue(password.length() > 0);
         Assert.assertTrue(name.length() > 0);
+
+        RegisterConfig registerConfig = registerConfigService.load();
+        System.out.println(registerConfig.getGoldCoin());
     }
 }

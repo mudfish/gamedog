@@ -71,6 +71,7 @@ public class AccountController {
 
             //插入注册记录
             RegisterRecord registerRecord = new RegisterRecord(System.currentTimeMillis(), ip, new Date());
+            registerRecordService.add(registerRecord);
         }
 
         return ResultUtil.ok();

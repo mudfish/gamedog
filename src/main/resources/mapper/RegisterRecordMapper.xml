@@ -10,7 +10,7 @@
         (#{id},#{ip},#{registerTime})
     </insert>
 
-    <select id="selectCountByIp" parameterType="map" resultMap="java.lang.Integer">
+    <select id="selectCountByIp" parameterType="map" resultType="java.lang.Integer">
       select count(*)
         from IP_LIMIT
         where IP=#{ip}

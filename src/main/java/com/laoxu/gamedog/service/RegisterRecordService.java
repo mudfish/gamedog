@@ -22,7 +22,7 @@ public class RegisterRecordService extends AbstractService {
      * @param entity
      */
     public void add(RegisterRecord entity) {
-        insert("accountMapper.insert", entity);
+        insert("registerRecordMapper.insert", entity);
     }
 
     /**
