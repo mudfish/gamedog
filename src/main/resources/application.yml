@@ -34,8 +34,8 @@ jasypt:
 #打印日志
 logging:
   level:
-    com.laoxu.gamedog: debug
-  file: logs/debug.log
+    org.springframework.web: debug
+  #file: logs/debug.log
 
 # 管理员账号
 admin:
