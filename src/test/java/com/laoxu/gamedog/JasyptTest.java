@@ -30,15 +30,15 @@ public class JasyptTest {
     @Test
     public void getPass(){
         String url = encryptor.encrypt("jdbc:mysql://119.188.247.170/dl_adb_all?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true");
-        String name = encryptor.encrypt("root");
-        String password = encryptor.encrypt("mRHLRjCkPD6X56nP");
+        String name = encryptor.encrypt("123");
+        String password = encryptor.encrypt("123");
         System.out.println(url);
         System.out.println(name);
-        //System.out.println(password);
+        System.out.println(password);
         Assert.assertTrue(password.length() > 0);
         Assert.assertTrue(name.length() > 0);
 
-        RegisterConfig registerConfig = registerConfigService.load();
-        System.out.println(registerConfig.getGoldCoin());
     }
+
+
 }

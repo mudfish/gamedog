@@ -1,5 +1,6 @@
 server:
   port: 90
+  session-timeout: 300
 #  servlet:
 #    context-path: /gamedog
 
@@ -33,4 +34,10 @@ jasypt:
 #打印日志
 logging:
   level:
-    com.laoxu.gamedog.controller: debug
+    com.laoxu.gamedog: debug
+  file: logs/debug.log
+
+# 管理员账号
+admin:
+  username: ENC(Qgg+zCvxFceUMvwOUjkT894N53rHoxpy)
+  password: ENC(JbNt24L3IBWjdf0Q9zEM6xxnlsU/oi90)
