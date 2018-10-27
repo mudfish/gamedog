@@ -42,6 +42,12 @@ public class AccountController {
     @Autowired
     private RegisterRecordService registerRecordService;
 
+    /**
+     * 新增账号
+     * @param entity
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Result<String> add(@RequestBody Account entity, HttpServletRequest request) {
         String ip = IpUtil.getIpAddr(request);
@@ -49,6 +55,7 @@ public class AccountController {
         RegisterConfig registerConfig = registerConfigService.load();
         int registerMaxNum = registerConfig.getLimitNum();
         int registerLimitHour = registerConfig.getLimitHour();
+
 
         //判断是否超过注册限制
         Map<String, Object> param = new HashMap<>();

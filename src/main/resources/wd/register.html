@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>用户注册</title>
-    <!--<link rel="stylesheet" href="/static/css/bootstrap.css">
-    <script src="/static/js/bootstrap.js"></script>
-    <script src="/static/js/jquery-3.3.1.js"></script>-->
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
-    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <script src="/static/js/bootstrap.min.js"/>
+    <script src="/static/js/jquery-3.3.1.js"/>
+    <script src="/static/js/jquery.validate.min.js"/>
+    <script src="/static/js/messages_zh.min.js"/>
 
     <style type="text/css">
         .login-form {
@@ -45,6 +46,8 @@
         });
 
         var register= function () {
+            //var header = $("meta[name='_csrf_header']").attr("content");
+            // var token =$("meta[name='_csrf']").attr("content");
             var account = $("#account").val();
             var password = $("#password").val();
 
@@ -56,6 +59,9 @@
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify(param),
+                /*beforeSend:function(request){
+                    request.setRequestHeader(header,token);
+                },*/
                 success: function (data) {
                     if (data.success) {
                         alert("注册成功！");
@@ -73,7 +79,7 @@
 </head>
 <body>
 <div class="login-form">
-    <form class="login-form" id="login-form">
+    <form id="login-form">
         <h3 class="text-center">账号注册</h3>
 
         <div class="form-group">
