@@ -1,94 +1,53 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>用户登录</title>
-
-    <!--引入公共css/js-->
+    <title>Spring Security Example </title>
     <div th:replace="fragments/header :: header-css-js"/>
-
-    <style type="text/css">
-        .login-form {
-            width: 340px;
-            margin: 50px 0px;
-        }
-
-        .login-form form {
-            margin-bottom: 15px;
-            background: #f7f7f7;
-            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-            padding: 30px;
-        }
-
-    </style>
-
-    <script type="text/javascript">
-        $(function () {
-            $("#login-form").validate({
-                rules: {
-                    account: "required",
-                    password: "required",
-                },
-                messages: {
-                    account: "请输入账号",
-                    password: "请输入密码",
-                }
-            });
-        });
-
-    </script>
 </head>
 <body>
-<div class="login-form">
-    <form class="login-form" id="login-form" th:action="@{/login}" method="post">
-        <h3 class="text-center">管理员登录</h3>
 
-        <fieldset>
-            <h1>Please Sign In</h1>
+<div class="container">
 
-            <div th:if="${param.error}">
-                <div class="alert alert-danger">
-                    Invalid username and password.
-                </div>
-            </div>
-            <div th:if="${param.logout}">
-                <div class="alert alert-info">
-                    You have been logged out.
-                </div>
-            </div>
+    <div class="row" style="margin-top:20px">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <form th:action="@{/login}" method="post">
+                <fieldset>
+                    <h1 class="text-center">请登录</h1>
 
-            <div class="form-group">
-                <input type="text" name="username" id="username" class="form-control input-lg"
-                       placeholder="UserName" required="true" autofocus="true"/>
-            </div>
-            <div class="form-group">
-                <input type="password" name="password" id="password" class="form-control input-lg"
-                       placeholder="Password" required="true"/>
-            </div>
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger">
+                            用户名或密码错误
+                        </div>
+                    </div>
+                    <div th:if="${param.logout}">
+                        <div class="alert alert-info">
+                            您已成功退出
+                        </div>
+                    </div>
 
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign In"/>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                </div>
-            </div>
-        </fieldset>
-        <!--<div class="form-group">
-            <input type="text" id="account" name="account" class="form-control" placeholder="账号" autocomplete="off">
+                    <div class="form-group">
+                        <input type="text" name="username" id="username" class="form-control input-lg"
+                               placeholder="用户名" required="true" autofocus="true"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" id="password" class="form-control input-lg"
+                               placeholder="密码" required="true"/>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-sm-offset-2 col-md-offset-3">
+                            <input type="submit" class="btn btn-lg btn-primary btn-block" value="登录"/>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
         </div>
-        <div class="form-group">
-            <input type="password" id="password" name="password" class="form-control" placeholder="密码"
-                   autocomplete="off">
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">登录</button>
-        </div>
-        <div class="form-group">
-            <p id="error" class="bg-danger"></p>
-        </div>-->
-    </form>
+    </div>
+
 </div>
+
+
 </body>
 </html>

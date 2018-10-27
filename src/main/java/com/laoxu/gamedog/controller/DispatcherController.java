@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DispatcherController {
     @RequestMapping("/login")
     public String login(){
-        return "/login";
+        return "login";
     }
 
     @RequestMapping("/admin")
     public String admin(){
-        return "/admin";
+        return "admin";
     }
 }
