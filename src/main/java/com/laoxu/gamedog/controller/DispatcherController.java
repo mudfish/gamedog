@@ -18,6 +18,6 @@ public class DispatcherController {
 
     @RequestMapping("/admin")
     public String admin(){
-        return "admin";
+        return "admin2";
     }
 }
