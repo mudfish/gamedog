@@ -11,10 +11,26 @@
     </insert>
 
     <select id="selectCountByIp" parameterType="map" resultType="java.lang.Integer">
+    <![CDATA[
       select count(*)
         from IP_LIMIT
         where IP=#{ip}
         AND DATE_ADD(REGISTETIME, INTERVAL #{limitHour} HOUR) > NOW()
+        ]]>
+    </select>
+
+
+    <select id="selectCountByTime" resultType="map">
+        <![CDATA[
+        select totalToday,totalIpToday,total,totalIp
+        from
+        (select count(*) as "total", count(distinct IP) as "totalIp"
+        from IP_LIMIT) a,
+        (select count(*) as "totalToday" ,count(distinct IP) as "totalIpToday"
+        from IP_LIMIT
+        where REGISTETIME > CURRENT_DATE()
+        ) b
+        ]]>
     </select>
 
 </mapper>

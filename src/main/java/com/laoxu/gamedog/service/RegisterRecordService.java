@@ -35,5 +35,15 @@ public class RegisterRecordService extends AbstractService {
         return selectOne("registerRecordMapper.selectCountByIp", param);
     }
 
+    /**
+     * 统计当天注册情况
+     *
+     * @param account
+     * @return
+     */
+    public Map<String,Object> getCountByTime(){
+        return selectOne("registerRecordMapper.selectCountByTime");
+    }
+
 
 }

@@ -1,27 +1,11 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head>
-    <script src="/static/js/bootstrap.js"/>
-</head>
-<body>
 <div th:fragment="footer">
-
-    <div class="container">
-
-        <footer>
-            <!-- this is footer -->
-            © 2018 dylan.com
-            <span sec:authorize="isAuthenticated()">
-                | Logged user: <span sec:authentication="name"></span> |
-                Roles: <span sec:authentication="principal.authorities"></span> |
-                <a th:href="@{/logout}">Sign Out</a>
-            </span>
-
-
-        </footer>
+    <!--页脚-->
+    <div class="footer">
+        <div class="footer-inner">
+            <div class="footer-content">
+                <span class="bolder">Powered by Dylan</span>
+            </div>
+        </div>
     </div>
-
 </div>
-</body>
-</html>
+
