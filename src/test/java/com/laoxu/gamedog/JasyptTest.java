@@ -38,7 +38,6 @@ public class JasyptTest {
         Assert.assertTrue(password.length() > 0);
         Assert.assertTrue(name.length() > 0);
 
-        System.out.println(encryptor.decrypt("JbNt24L3IBWjdf0Q9zEM6xxnlsU/oi90"));
 
     }
 
