@@ -45,4 +45,13 @@ public class AccountService extends AbstractService {
     }
 
 
+    /**
+     * 根据账号和密码查询（此处可与load方法合并）
+     * @param param
+     * @return
+     */
+    public Account loadByAccountPassword(Map<String,String> param) {
+        return selectOne("accountMapper.loadByAccountPassword", param);
+    }
+
 }

@@ -34,7 +34,7 @@
           )
     </insert>
 
-    <update id="upadte" parameterType="com.laoxu.gamedog.model.Account">
+    <update id="update" parameterType="com.laoxu.gamedog.model.Account">
         update account
         set password=#{password},
             update_time=#{updateTime}
@@ -59,6 +59,19 @@
               update_time
         from account
         where account = #{account}
+    </select>
+
+    <select id="loadByAccountPassword" parameterType="map" resultMap="accountMap">
+        select account,
+              password,
+              gold_coin,
+              silver_coin,
+              privilege,
+              checksum,
+              update_time
+        from account
+        where account = #{account}
+        and password = #{password}
     </select>
 
     <select id="count" parameterType="java.lang.String" resultType="java.lang.Integer">
