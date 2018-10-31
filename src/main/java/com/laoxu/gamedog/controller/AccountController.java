@@ -8,6 +8,7 @@ import com.laoxu.gamedog.model.RegisterRecord;
 import com.laoxu.gamedog.service.AccountService;
 import com.laoxu.gamedog.service.RegisterConfigService;
 import com.laoxu.gamedog.service.RegisterRecordService;
+import com.laoxu.gamedog.util.AccountUtil;
 import com.laoxu.gamedog.util.IpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,4 +84,32 @@ public class AccountController {
 
         return ResultUtil.ok();
     }
+
+    /**
+     * 修改密码
+     * @param param
+     * @return
+     */
+    @RequestMapping(value="/changePassword", method=RequestMethod.POST)
+    public Result<String> changePassword(@RequestBody Map<String,String> param){
+        //获取加密密码
+        String account = param.get("account");
+        String password = param.get("password");
+        String passwordNew = param.get("passwordNew");
+
+        param.put("password",AccountUtil.getEncPassword(account,password));
+        //查询账号
+        Account entity = accountService.loadByAccountPassword(param);
+
+        if(entity==null){
+            return ResultUtil.fail("账号或密码错误！");
+        }
+
+        entity.setPassword(passwordNew);
+
+        accountService.modify(entity);
+
+        return ResultUtil.ok();
+    }
+
 }
