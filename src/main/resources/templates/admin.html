@@ -32,22 +32,7 @@
             } catch (e) {
             }
         </script>
-
-        <ul class="nav nav-list" style="top: 0px;">
-            <li class="">
-                <a th:href="@{/admin}">
-                    <i class="menu-icon fa fa-tachometer"></i>
-                    <span class="menu-text"> 仪表板 </span>
-                </a>
-
-                <b class="arrow"></b>
-            </li>
-        </ul>
-
-        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-            <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
-               data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-        </div>
+        <div th:replace="fragments/menu::menu"/>
     </div>
     <!--右侧内容区-->
     <div class="main-content">
@@ -71,7 +56,8 @@
                                 </div>
                                 <div class="infobox infobox-green">
                                     <div class="infobox-data">
-                                        <span class="infobox-data-number" th:text="${registerCountMap['totalToday']}">32</span>
+                                        <span class="infobox-data-number"
+                                              th:text="${registerCountMap['totalToday']}">32</span>
                                         <div class="infobox-content">今日注册账号</div>
                                     </div>
                                 </div>
@@ -85,7 +71,8 @@
                                 </div>
                                 <div class="infobox infobox-pink">
                                     <div class="infobox-data">
-                                        <span class="infobox-data-number" th:text="${registerCountMap['total']}">32</span>
+                                        <span class="infobox-data-number"
+                                              th:text="${registerCountMap['total']}">32</span>
                                         <div class="infobox-content">总注册账号</div>
                                     </div>
                                 </div>
@@ -93,7 +80,8 @@
                                 <div class="infobox infobox-red">
 
                                     <div class="infobox-data">
-                                        <span class="infobox-data-number" th:text="${registerCountMap['totalIp']}">11</span>
+                                        <span class="infobox-data-number"
+                                              th:text="${registerCountMap['totalIp']}">11</span>
                                         <div class="infobox-content">总注册IP</div>
                                     </div>
                                 </div>

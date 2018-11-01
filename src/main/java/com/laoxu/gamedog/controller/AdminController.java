@@ -1,6 +1,5 @@
 package com.laoxu.gamedog.controller;
 
-import com.laoxu.gamedog.model.RegisterRecord;
 import com.laoxu.gamedog.service.RegisterRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,7 @@ import java.util.Map;
  * @create 2018-10-26
  **/
 @Controller
-public class DispatcherController {
+public class AdminController {
     @Autowired
     private RegisterRecordService registerRecordService;
 
@@ -31,5 +30,10 @@ public class DispatcherController {
         Map<String,Object> registerCountMap = registerRecordService.getCountByTime();
         mv.addObject("registerCountMap",registerCountMap);
         return mv;
+    }
+
+    @RequestMapping("/accountList")
+    public String accountList(){
+        return "accountList";
     }
 }
