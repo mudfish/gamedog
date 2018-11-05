@@ -4,13 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="accountMapper">
     <resultMap id="accountMap" type="com.laoxu.gamedog.model.Account">
-        <result property="account" column="ACCOUNT" />
-        <result property="password" column="PASSWORD" />
-        <result property="goldCoin" column="GOLD_COIN" />
-        <result property="silverCoin" column="SILVER_COIN" />
-        <result property="privilege" column="PRIVILEGE" />
-        <result property="checksum" column="CHECKSUM" />
-        <result property="updateTime" column="UPDATE_TIME" />
+        <result property="account" column="ACCOUNT"/>
+        <result property="password" column="PASSWORD"/>
+        <result property="goldCoin" column="GOLD_COIN"/>
+        <result property="silverCoin" column="SILVER_COIN"/>
+        <result property="privilege" column="PRIVILEGE"/>
+        <result property="checksum" column="CHECKSUM"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.laoxu.gamedog.model.Account">
@@ -42,11 +42,11 @@
     </update>
 
     <delete id="delete">
-            DELETE FROM account
-            WHERE account IN
-            <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">
-                #{item}
-            </foreach>
+        DELETE FROM account
+        WHERE account IN
+        <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </delete>
 
     <select id="load" parameterType="java.lang.String" resultMap="accountMap">
@@ -74,10 +74,30 @@
         and password = #{password}
     </select>
 
-    <select id="count" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <select id="count" parameterType="Map" resultType="java.lang.Integer">
         select count(*)
         from account
-        where account = #{account}
+        <where>
+            <if test="account!=null and account!=''">
+                AND account like concat('%',#{account},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="listByAccount" parameterType="Map" resultMap="accountMap">
+        select account,
+        password,
+        gold_coin,
+        silver_coin,
+        privilege,
+        checksum,
+        update_time
+        from account
+        <where>
+            <if test="account!=null and account!=''">
+                AND account like concat('%',#{account},'%')
+            </if>
+        </where>
     </select>
 
 </mapper>

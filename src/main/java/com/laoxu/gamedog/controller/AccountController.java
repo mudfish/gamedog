@@ -2,6 +2,7 @@ package com.laoxu.gamedog.controller;
 
 import com.laoxu.gamedog.framework.Result;
 import com.laoxu.gamedog.framework.ResultUtil;
+import com.laoxu.gamedog.framework.pagination.PagingResult;
 import com.laoxu.gamedog.model.Account;
 import com.laoxu.gamedog.model.RegisterConfig;
 import com.laoxu.gamedog.model.RegisterRecord;
@@ -13,14 +14,12 @@ import com.laoxu.gamedog.util.IpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,6 +44,7 @@ public class AccountController {
 
     /**
      * 新增账号
+     *
      * @param entity
      * @param request
      * @return
@@ -87,21 +87,22 @@ public class AccountController {
 
     /**
      * 修改密码
+     *
      * @param param
      * @return
      */
-    @RequestMapping(value="/changePassword", method=RequestMethod.POST)
-    public Result<String> changePassword(@RequestBody Map<String,String> param){
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    public Result<String> changePassword(@RequestBody Map<String, String> param) {
         //获取加密密码
         String account = param.get("account");
         String password = param.get("password");
         String passwordNew = param.get("passwordNew");
 
-        param.put("password",AccountUtil.getEncPassword(account,password));
+        param.put("password", AccountUtil.getEncPassword(account, password));
         //查询账号
         Account entity = accountService.loadByAccountPassword(param);
 
-        if(entity==null){
+        if (entity == null) {
             return ResultUtil.fail("账号或密码错误！");
         }
 
@@ -110,6 +111,31 @@ public class AccountController {
         accountService.modify(entity);
 
         return ResultUtil.ok();
+    }
+
+    /**
+     * 账号列表
+     *
+     * @param account
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @PostMapping("/listByAccount")
+    public PagingResult<Account> listByFileName(@RequestParam("account") final String account,
+                                                @RequestParam(defaultValue = "1") final int pageNo,
+                                                @RequestParam(defaultValue = "10") final int pageSize) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("account", account);
+        //获取总记录数
+        int totalRows = accountService.count(param);
+
+        PagingResult<Account> result = this.accountService.listByAccount(param, "", "", pageNo, pageSize);
+
+        //设置总页数
+        result.setTotalPages((totalRows-1)/pageSize+1);
+
+        return result;
     }
 
 }

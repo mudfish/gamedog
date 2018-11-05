@@ -60,7 +60,7 @@
                             <div class="row col-md-3 col-center-block"
                                  style="margin-top: 10px; margin-bottom: 10px;">
                                 <div class="input-group">
-                                    <input class="form-control" type="text" id="name" placeholder="请输入名称">
+                                    <input class="form-control" type="text" id="name" placeholder="请输入账号">
                                     <span class="input-group-btn">
 																	<button class="btn btn-sm btn-default" type="button"
                                                                             id="search">
@@ -70,12 +70,13 @@
                                 </div>
                             </div>
                             <div class="row col-md-12 table-responsive">
-                                <table id="fileTable" class="table table-bordered table-hover">
+                                <table id="dataTable" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
-                                        <th>文件名</th>
-                                        <th>大小</th>
-                                        <th>路径</th>
+                                        <th>账号</th>
+                                        <th>密码</th>
+                                        <th>金元宝</th>
+                                        <th>银元宝</th>
                                         <th>操作</th>
                                     </tr>
                                     </thead>
@@ -150,22 +151,24 @@
 
     function getData(pageNo) {
         curPageNo = pageNo;
-        $
-            .ajax({
+        $.ajax({
                 type: "POST",
-                url: "/listByFileName",
+                url: "/account/listByAccount",
                 traditional: true,
                 data: {
-                    "fileName": $("#name").val(),
+                    "account": $("#name").val(),
                     "pageNo": pageNo,
                     "pageSize": "10"
                 },
                 success: function (data) {
-                    var fileRow = "";
+                    var dataRow = "";
                     var pager = "";
                     var pre = "<li><a href=\'javascript:void(0);\' onclick=\'pre();\'>上一页</a></li>";
                     var next = "<li><a href=\'javascript:void(0);\' onclick=\'next();\'>下一页</a></li>";
                     var totalPages = data.totalPages;
+                    console.log(JSON.stringify(data));
+                    console.log('totalPages:'+totalPages);
+                    console.log('curPageNo:'+curPageNo);
 
                     if (totalPages > 1) {
                         //上一页+下一页
@@ -183,33 +186,35 @@
 
                     }
 
-                    $
-                        .each(
+                    $.each(
                             data.rows,
-                            function (i, file) {
-                                fileRow += '<tr>'
+                            function (i, r) {
+                                dataRow += '<tr>'
                                     + '<td>'
-                                    + file.realFileName
+                                    + r.account
                                     + '</td>'
                                     + '<td>'
-                                    + file.fileSize
+                                    + r.password
                                     + '</td>'
                                     + '<td>'
-                                    + file.filePath
+                                    + r.goldCoin
+                                    + '</td>'
+                                    + '<td>'
+                                    + r.silverCoin
                                     + '</td>'
                                     + '<td><a href=\'javascript:removeFile('
-                                    + file.id
+                                    + r.id
                                     + ')\'>删除</a>&nbsp;<a href=\'javascript:downloadFile('
-                                    + file.id
+                                    + r.id
                                     + ')\'>下载</a></td>'
                                     + '</tr>';
                             });
-                    $("#fileTable tbody").empty();
-                    $("#fileTable tbody").append(fileRow);
+                    $("#dataTable tbody").empty();
+                    $("#dataTable tbody").append(dataRow);
                     $("#pager").empty();
                     $("#pager").append(pager);
-                    $("#fileTable tbody tr:odd").addClass("info");
-                    $("#fileTable tbody tr:even").addClass("success");
+                    $("#dataTable tbody tr:odd").addClass("info");
+                    $("#dataTable tbody tr:even").addClass("success");
                 },
                 error: function (e) {
                     //alert("ERROR: " + e.responseText);

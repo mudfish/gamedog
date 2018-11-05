@@ -13,7 +13,7 @@ import java.util.List;
  **/
 public class PagingResult<T> {
     private int page ;//当前页索引
-    private int total ;//总页数
+    private int totalPages ;//总页数
     private int records ;//总记录数
     private int pageSize ;//当前页大小
     private List<T> rows = new ArrayList<T>() ;//分页结果集
@@ -30,8 +30,9 @@ public class PagingResult<T> {
         this.page = currentPage ;
         this.records = records ;
         this.pageSize = pageSize ;
-        if( rows != null )
+        if( rows != null ){
             this.rows = rows ;
+        }
     }
 
     /**
@@ -56,27 +57,18 @@ public class PagingResult<T> {
      * 获取总页数。
      * @return 总页数
      */
-    public int getTotal()
+    public int getTotalPages()
     {
-        if( records == 0 )
-            total = 1 ;
-        else
-        {
-            if( records % pageSize == 0 )
-                total = records / pageSize ;
-            else
-                total = ( records / pageSize ) + 1 ;
-        }
-        return total ;
+        return totalPages ;
     }
 
     /**
      * 设置总页数。
      * @param total 总页数
      */
-    public void setTotal( int total )
+    public void setTotalPages( int totalPages )
     {
-        this.total = total ;
+        this.totalPages = totalPages ;
     }
 
     /**
