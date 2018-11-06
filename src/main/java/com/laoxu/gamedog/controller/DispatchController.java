@@ -15,7 +15,7 @@ import java.util.Map;
  * @create 2018-10-26
  **/
 @Controller
-public class AdminController {
+public class DispatchController {
     @Autowired
     private RegisterRecordService registerRecordService;
 
@@ -32,8 +32,21 @@ public class AdminController {
         return mv;
     }
 
+    /**
+     * 账号列表
+     * @return
+     */
     @RequestMapping("/accountList")
     public String accountList(){
         return "accountList";
+    }
+
+    /**
+     * 商品分类
+     * @return
+     */
+    @RequestMapping("/product/productType")
+    public String productType(){
+        return "product/productType";
     }
 }

@@ -2,6 +2,7 @@
  * Created by xusucheng on 2018/11/1.
  */
 
+//找到目前点击的菜单
 var findMenu=function () {
     var pathname = window.location.pathname + window.location.search;
 

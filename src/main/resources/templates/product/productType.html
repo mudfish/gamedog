@@ -4,14 +4,15 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8"/>
-    <title>管理后台</title>
+    <title>商品分类</title>
 
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 
     <!--css和js-->
     <div th:replace="fragments/header :: header-css-js"/>
-    <link rel="stylesheet" href="/static/assets/css/ui.jqgrid.min.css"/>
+    <script src="/static/assets/js/jquery.validate.min.js"></script>
+    <script src="/static/assets/js/messages_zh.min.js"></script>
 
     <style type="text/css">
         .col-center-block {
@@ -56,27 +57,36 @@
 
                         <div class="row">
                             <div class="space-6"></div>
+                            <div class="">
 
-                            <div class="row col-md-3 col-center-block"
-                                 style="margin-top: 10px; margin-bottom: 10px;">
-                                <div class="input-group">
-                                    <input class="form-control" type="text" id="name" placeholder="请输入账号">
-                                    <span class="input-group-btn">
-																	<button class="btn btn-sm btn-default" type="button"
-                                                                            id="search">
-																		查询
-																	</button>
-																</span>
+
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4 class="widget-title">新增分类</h4>
                                 </div>
+
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <form class="form-inline" id="add-form">
+                                            <input type="text" id="name" class="input-middle" placeholder="名称" required="required">
+                                            <input type="text" id="code" class="input-middle" placeholder="编码" required="required">
+
+                                            <button type="submit" class="btn btn-sm btn-default">
+                                                <i class="ace-icon fa bigger-110"></i>确定
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                             </div>
                             <div class="row col-md-12 table-responsive">
                                 <table id="dataTable" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
-                                        <th>账号</th>
-                                        <th>密码</th>
-                                        <th>金元宝</th>
-                                        <th>银元宝</th>
+                                        <th>分类名称</th>
+                                        <th>分类编码</th>
+                                        <th>操作人</th>
+                                        <th>操作时间</th>
                                         <th>操作</th>
                                     </tr>
                                     </thead>
@@ -108,93 +118,94 @@
 
 <!-- 尾部js-->
 <div th:replace="fragments/header::bottom-css-js"/>
-<script src="/static/assets/js/jquery.jqGrid.min.js"></script>
-<script src="/static/assets/js/grid.locale-en.js"></script>
 <script type="text/javascript">
     $(function () {
         findMenu();
 
-        var curPageNo;
-        //查询第一页数据
-        getData(1);
-
-        //模糊查询
-        $("#search").click(function () {
-            getData(1);
+        //新增
+        $("#add-form").validate({
+            rules: {
+                account:"required",
+                password: "required",
+            },
+            messages:{
+                account:"请输入账号",
+                password: "请输入密码",
+            },
+            submitHandler:function(form){
+                addProductType();
+            }
         });
 
-        //模糊查询
-        $("#gotoIndex").click(function () {
-            window.open("/index.html");
-        });
-
-        var curPageNo;
-
+        //查询数据
+        getData();
     });
+
+    var addProductType= function () {
+        var name = $("#name").val();
+        var code = $("#code").val();
+
+        var param = {name: name, code: code};
+
+        alert(JSON.stringify(param));
+
+        $.ajax({
+            url: "/product/addProductType",
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(param),
+            success: function (data) {
+                if (data.success) {
+                    alert("新增成功！");
+                    $("#account").val("");
+                    $("#password").val("");
+                } else {
+                    alert(data.message);
+                }
+
+            }
+        });
+    }
 
 
     function getData(pageNo) {
         curPageNo = pageNo;
         $.ajax({
                 type: "POST",
-                url: "/account/listByAccount",
+                url: "/product/listProductType",
                 traditional: true,
                 data: {
-                    "account": $("#name").val(),
-                    "pageNo": pageNo,
-                    "pageSize": "10"
                 },
                 success: function (data) {
                     var dataRow = "";
-                    var pager = "";
-                    var pre = "<li><a href=\'javascript:void(0);\' onclick=\'pre();\'>上一页</a></li>";
-                    var next = "<li><a href=\'javascript:void(0);\' onclick=\'next();\'>下一页</a></li>";
-                    var totalPages = data.totalPages;
-                    /*console.log(JSON.stringify(data));
-                    console.log('totalPages:'+totalPages);
-                    console.log('curPageNo:'+curPageNo);*/
-
-                    if (totalPages > 1) {
-                        //上一页+下一页
-                        if (curPageNo > 1 && curPageNo < totalPages) {
-                            pager = pre + next;
-                        }
-                        //上一页
-                        if (curPageNo == totalPages) {
-                            pager = pre;
-                        }
-                        //下一页
-                        if (curPageNo == 1) {
-                            pager = next;
-                        }
-
-                    }
 
                     $.each(
                             data.rows,
                             function (i, r) {
                                 dataRow += '<tr>'
                                     + '<td>'
-                                    + r.account
+                                    + r.name
                                     + '</td>'
                                     + '<td>'
-                                    + r.password
+                                    + r.code
                                     + '</td>'
                                     + '<td>'
-                                    + r.goldCoin
+                                    + r.updater
                                     + '</td>'
                                     + '<td>'
-                                    + r.silverCoin
+                                    + r.updateTime
                                     + '</td>'
-                                    + '<td><a href=\'javascript:removeFile('
+                                    + '<td><a href=\'javascript:modify('
+                                    + r.id
+                                    + ')\'>编辑</a></td>'
+                                    + '<td><a href=\'javascript:remove('
                                     + r.id
                                     + ')\'>删除</a></td>'
                                     + '</tr>';
                             });
                     $("#dataTable tbody").empty();
                     $("#dataTable tbody").append(dataRow);
-                    $("#pager").empty();
-                    $("#pager").append(pager);
                     $("#dataTable tbody tr:odd").addClass("info");
                     $("#dataTable tbody tr:even").addClass("success");
                 },
@@ -205,12 +216,12 @@
             });
     }
 
-    //删除文件
-    function removeFile(id) {
-        if (confirm("确定删除数据？")) {
+    //删除
+    function remove(id) {
+        if (confirm("确定删除该商品分类？")) {
             $.ajax({
                 type: "POST",
-                url: "/removeFile",
+                url: "/product/removeProductType",
                 traditional: true,
                 data: {
                     id: id
@@ -227,20 +238,6 @@
 
     }
 
-    //下载文件
-    function downloadFile(id) {
-        window.open("/downloadFile/" + id);
-    }
-
-    //上一页
-    function pre() {
-        getData(curPageNo - 1);
-    }
-
-    //下一页
-    function next() {
-        getData(curPageNo + 1);
-    }
 
 </script>
 

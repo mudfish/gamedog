@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="productTypeMapper">
+    <resultMap id="productTypeMap" type="com.laoxu.gamedog.model.product.ProductType">
+        <result property="id" column="ID"/>
+        <result property="name" column="NAME"/>
+        <result property="code" column="CODE"/>
+        <result property="creater" column="CREATER"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="updater" column="UPDATER"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.laoxu.gamedog.model.product.ProductType">
+      insert into product_type (
+              name,
+              code,
+              creater,
+              create_time,
+              updater,
+              update_time
+              )
+      VALUES (
+            #{name},
+            #{code},
+            #{creater},
+            #{createTime},
+            #{updater},
+            #{updateTime}
+          )
+    </insert>
+
+    <update id="update" parameterType="com.laoxu.gamedog.model.product.ProductType">
+        update product_type
+        set name=#{name},
+            code=#{code},
+            updater=#{updater},
+            update_time=#{updateTime}
+        where id=#{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM product_type
+        WHERE id IN
+        <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="productTypeMap">
+        select id,
+               name,
+              code,
+              creater,
+              create_time,
+              updater,
+              update_time
+        from product_type
+        where id = #{id}
+    </select>
+
+    <select id="count" parameterType="Map" resultType="java.lang.Integer">
+        select count(*)
+        from product_type
+        <where>
+            <if test="name!=null and name!=''">
+                AND name = #{name}
+            </if>
+        </where>
+    </select>
+</mapper>
