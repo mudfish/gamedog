@@ -11,8 +11,6 @@
 
     <!--css和js-->
     <div th:replace="fragments/header :: header-css-js"/>
-    <script src="/static/assets/js/jquery.validate.min.js"></script>
-    <script src="/static/assets/js/messages_zh.min.js"></script>
 
     <style type="text/css">
         .col-center-block {
@@ -60,29 +58,34 @@
                             <div class="">
 
 
-                            <div class="widget-box">
-                                <div class="widget-header">
-                                    <h4 class="widget-title">新增分类</h4>
-                                </div>
+                                <div class="widget-box">
+                                    <div class="widget-header">
+                                        <h4 class="widget-title">新增分类</h4>
+                                    </div>
 
-                                <div class="widget-body">
-                                    <div class="widget-main">
-                                        <form class="form-inline" id="add-form">
-                                            <input type="text" id="name" class="input-middle" placeholder="名称" required="required">
-                                            <input type="text" id="code" class="input-middle" placeholder="编码" required="required">
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <form class="form-inline" id="add-form">
+                                                <input type="text" id="name" name="name" class="input-middle"
+                                                       placeholder="名称" required="required"/>
+                                                <input type="text" id="code" name="code" class="input-middle"
+                                                       placeholder="编码" required="required"/>
 
-                                            <button type="submit" class="btn btn-sm btn-default">
-                                                <i class="ace-icon fa bigger-110"></i>确定
-                                            </button>
-                                        </form>
+                                                <button type="submit" class="btn btn-sm btn-default">
+                                                    <i class="ace-icon fa bigger-110"></i>确定
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             </div>
                             <div class="row col-md-12 table-responsive">
                                 <table id="dataTable" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
+                                        <th class="center">
+                                           <input type="checkbox" id="checkAll">
+                                        </th>
                                         <th>分类名称</th>
                                         <th>分类编码</th>
                                         <th>操作人</th>
@@ -122,98 +125,91 @@
     $(function () {
         findMenu();
 
-        //新增
-        $("#add-form").validate({
-            rules: {
-                account:"required",
-                password: "required",
-            },
-            messages:{
-                account:"请输入账号",
-                password: "请输入密码",
-            },
-            submitHandler:function(form){
-                addProductType();
-            }
-        });
-
         //查询数据
         getData();
+
+
     });
 
-    var addProductType= function () {
-        var name = $("#name").val();
-        var code = $("#code").val();
 
-        var param = {name: name, code: code};
+    $("#add-form").submit(function (e) {
+        var form = $(this);
+        var url = form.attr('action');
 
-        alert(JSON.stringify(param));
+        console.log(JSON.stringify(form.serializeJSON()));
 
         $.ajax({
             url: "/product/addProductType",
             type: "POST",
             contentType: "application/json",
             dataType: "json",
-            data: JSON.stringify(param),
+            data: JSON.stringify(form.serializeJSON()),
             success: function (data) {
                 if (data.success) {
-                    alert("新增成功！");
-                    $("#account").val("");
-                    $("#password").val("");
+                    $("#name").val("");
+                    $("#code").val("");
+                    //重新加载列表
+                    getData();
                 } else {
                     alert(data.message);
                 }
 
             }
         });
-    }
 
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+
+
+    });
 
     function getData(pageNo) {
         curPageNo = pageNo;
         $.ajax({
-                type: "POST",
-                url: "/product/listProductType",
-                traditional: true,
-                data: {
-                },
-                success: function (data) {
-                    var dataRow = "";
+            type: "GET",
+            url: "/product/listProductType",
+            success: function (data) {
+                var dataRow = "";
+                var d = new Date();
+                console.log(JSON.stringify(data));
 
-                    $.each(
-                            data.rows,
-                            function (i, r) {
-                                dataRow += '<tr>'
-                                    + '<td>'
-                                    + r.name
-                                    + '</td>'
-                                    + '<td>'
-                                    + r.code
-                                    + '</td>'
-                                    + '<td>'
-                                    + r.updater
-                                    + '</td>'
-                                    + '<td>'
-                                    + r.updateTime
-                                    + '</td>'
-                                    + '<td><a href=\'javascript:modify('
-                                    + r.id
-                                    + ')\'>编辑</a></td>'
-                                    + '<td><a href=\'javascript:remove('
-                                    + r.id
-                                    + ')\'>删除</a></td>'
-                                    + '</tr>';
-                            });
-                    $("#dataTable tbody").empty();
-                    $("#dataTable tbody").append(dataRow);
-                    $("#dataTable tbody tr:odd").addClass("info");
-                    $("#dataTable tbody tr:even").addClass("success");
-                },
-                error: function (e) {
-                    //alert("ERROR: " + e.responseText);
-                    console.log("ERROR: ", e.responseText);
-                }
-            });
+                $.each(
+                    data.data,
+                    function (i, r) {
+                        var updateTime = new Date(r.updateTime).getTime();
+                        dataRow += '<tr>'
+                            + '<td class="center">'
+                            + '<input type="checkbox" onclick="checkMe(this)" name="id" value="'+r.id+'">'
+                            + '</td>'
+                            + '<td>'
+                            + r.name
+                            + '</td>'
+                            + '<td>'
+                            + r.code
+                            + '</td>'
+                            + '<td>'
+                            + r.updater
+                            + '</td>'
+                            + '<td>'
+                            + new Date(updateTime).format("yyyy-MM-dd hh:mm:ss")
+                            + '</td>'
+                            + '<td><a href=\'javascript:modify('
+                            + r.id
+                            + ')\'>编辑</a>&nbsp;&nbsp;'
+                            + '<a href=\'javascript:remove('
+                            + r.id
+                            + ')\'>删除</a></td>'
+                            + '</tr>';
+                    });
+                $("#dataTable tbody").empty();
+                $("#dataTable tbody").append(dataRow);
+                // $("#dataTable tbody tr:odd").addClass("info");
+                // $("#dataTable tbody tr:even").addClass("success");
+            },
+            error: function (e) {
+                //alert("ERROR: " + e.responseText);
+                console.log("ERROR: ", e.responseText);
+            }
+        });
     }
 
     //删除

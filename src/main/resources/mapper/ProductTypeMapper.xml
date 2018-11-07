@@ -61,6 +61,17 @@
         where id = #{id}
     </select>
 
+    <select id="selectAll" resultMap="productTypeMap">
+        select id,
+               name,
+              code,
+              creater,
+              create_time,
+              updater,
+              update_time
+        from product_type
+    </select>
+
     <select id="count" parameterType="Map" resultType="java.lang.Integer">
         select count(*)
         from product_type
