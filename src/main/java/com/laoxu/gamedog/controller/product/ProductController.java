@@ -24,21 +24,29 @@ public class ProductController {
     private ProductTypeService productTypeService;
 
     /**
-     * 新增商品分类
+     * 保存商品分类
      * @param productType
      * @return
      */
-    @PostMapping("/addProductType")
-    public Result<String> addProductType(@RequestBody ProductType productType, Principal principal){
-        productType.setCreater(principal.getName());
-        productType.setCreateTime(new Date());
+    @PostMapping("/saveProductType")
+    public Result<String> saveProductType(@RequestBody ProductType productType, Principal principal){
+        if(principal==null){
+            return ResultUtil.fail("请登录后操作！");
+        }
+
+        if(productType.getId()==null){
+            productType.setCreater(principal.getName());
+            productType.setCreateTime(new Date());
+        }
+
         productType.setUpdater(principal.getName());
         productType.setUpdateTime(new Date());
 
-        productTypeService.add(productType);
+        productTypeService.save(productType);
 
         return ResultUtil.ok();
     }
+
 
     /**
      * 获取商品分类列表
@@ -51,8 +59,36 @@ public class ProductController {
         return ResultUtil.ok(productTypes);
     }
 
+    /**
+     * 获取商品分类
+     * @return
+     */
+    @GetMapping("/loadProductType")
+    public Result<ProductType> loadProductType(@RequestParam("id") Long id){
+        ProductType productType = productTypeService.load(id);
+
+        return ResultUtil.ok(productType);
+    }
+
+    /**
+     * 删除单条商品分类
+     * @param id
+     * @return
+     */
     @PostMapping("/removeProductType")
-    public Result<String> removeProductType(@RequestParam("ids") List<Long> ids){
+    public Result<String> removeProductType(@RequestParam("id") Long id){
+        productTypeService.remove(id);
+
+        return ResultUtil.ok();
+    }
+
+    /**
+     * 删除多条商品分类
+     * @param ids
+     * @return
+     */
+    @PostMapping("/removeProductTypes")
+    public Result<String> removeProductType(@RequestParam("ids") Long[] ids){
         productTypeService.remove(ids);
 
         return ResultUtil.ok();

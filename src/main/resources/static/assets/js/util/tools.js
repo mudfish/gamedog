@@ -79,11 +79,9 @@ $("#checkAll").click(function () {
         var row = this;
         if (th_checked) {
             $(row).addClass('active').find('input[type=checkbox]').eq(0).prop('checked', true);
-            $(row).find('input[type=checkbox]').eq(0).addClass('selectedId');
         }
         else {
             $(row).removeClass('active').find('input[type=checkbox]').eq(0).prop('checked', false);
-            $(row).find('input[type=checkbox]').eq(0).removeClass('selectedId');
         }
     });
 });
@@ -95,7 +93,7 @@ var checkMe = function(e){
         $(this).prop('checked', true);
     }
     else {
-        this.prop('checked', false);
+        $(this).prop('checked', false);
     }
 }
 

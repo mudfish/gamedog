@@ -17,29 +17,34 @@ import java.util.Map;
 @Service
 public class ProductTypeService extends AbstractService {
     /**
-     * 新增
+     * 保存
      * @param entity
      */
-    public void add(ProductType entity){
-        insert("productTypeMapper.insert", entity);
+    public void save(ProductType entity){
+        if(entity.getId() == null){
+            insert("productTypeMapper.insert", entity);
+        }else {
+            insert("productTypeMapper.update", entity);
+        }
     }
 
     /**
-     * 删除
+     * 删除单条
      * @param idAry
      */
-    public void remove(List<Long> idAry){
+    public void remove(Long id){
         Map<String,Object> param = new HashMap<>();
-        param.put("idAry",idAry);
-        delete("productTypeMapper.delete", param);
+        delete("productTypeMapper.deleteById", id);
     }
 
     /**
-     * 修改
-     * @param entity
+     * 删除多条
+     * @param idAry
      */
-    public void modify(ProductType entity){
-        update("productTypeMapper.update", entity);
+    public void remove(Long[] idAry){
+        Map<String,Object> param = new HashMap<>();
+        param.put("idAry",idAry);
+        delete("productTypeMapper.deleteByIds", param);
     }
 
     /**

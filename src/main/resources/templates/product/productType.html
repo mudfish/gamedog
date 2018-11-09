@@ -74,7 +74,12 @@
                                                 <button type="submit" class="btn btn-sm btn-default">
                                                     <i class="ace-icon fa bigger-110"></i>确定
                                                 </button>
+                                                <button type="button" class="btn btn-sm btn-default"
+                                                        onclick="removeSelected()">
+                                                    <i class="ace-icon fa bigger-110"></i>删除
+                                                </button>
                                             </form>
+
                                         </div>
                                     </div>
                                 </div>
@@ -84,7 +89,7 @@
                                     <thead>
                                     <tr>
                                         <th class="center">
-                                           <input type="checkbox" id="checkAll">
+                                            <input type="checkbox" id="checkAll">
                                         </th>
                                         <th>分类名称</th>
                                         <th>分类编码</th>
@@ -114,6 +119,39 @@
         </div>
     </div><!-- /.main-content -->
 
+
+    <!-- 编辑用户信息  模态窗口-->
+    <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog"
+         aria-labelledby="modifyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="modifyModalLabel">修改</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group center">
+                        <input type="text" id="m_name" name="m_name" class="input-middle"
+                               placeholder="名称" required="required"/>
+                    </div>
+                    <div class="form-group center">
+                        <input type="text" id="m_code" name="m_code" class="input-middle"
+                               placeholder="编码" required="required"/>
+                    </div>
+                </div>
+                <div class="modal-footer center">
+                    <button type="button" class="btn btn-default middle" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary middle" onclick="saveProductType()">保存</button>
+                    <input type="hidden" id="m_id">
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
     <!--页脚-->
     <div th:replace="fragments/footer::footer"/>
 
@@ -131,15 +169,15 @@
 
     });
 
-
+    //新增
     $("#add-form").submit(function (e) {
         var form = $(this);
         var url = form.attr('action');
 
-        console.log(JSON.stringify(form.serializeJSON()));
+        //console.log(JSON.stringify(form.serializeJSON()));
 
         $.ajax({
-            url: "/product/addProductType",
+            url: "/product/saveProductType",
             type: "POST",
             contentType: "application/json",
             dataType: "json",
@@ -162,6 +200,7 @@
 
     });
 
+    //获取列表
     function getData(pageNo) {
         curPageNo = pageNo;
         $.ajax({
@@ -170,7 +209,7 @@
             success: function (data) {
                 var dataRow = "";
                 var d = new Date();
-                console.log(JSON.stringify(data));
+                //console.log(JSON.stringify(data));
 
                 $.each(
                     data.data,
@@ -178,7 +217,7 @@
                         var updateTime = new Date(r.updateTime).getTime();
                         dataRow += '<tr>'
                             + '<td class="center">'
-                            + '<input type="checkbox" onclick="checkMe(this)" name="id" value="'+r.id+'">'
+                            + '<input type="checkbox" onclick="checkMe(this)" name="id" value="' + r.id + '">'
                             + '</td>'
                             + '<td>'
                             + r.name
@@ -212,18 +251,17 @@
         });
     }
 
-    //删除
+    //删除单条
     function remove(id) {
         if (confirm("确定删除该商品分类？")) {
+            var data = {"id": id};
             $.ajax({
                 type: "POST",
                 url: "/product/removeProductType",
-                traditional: true,
-                data: {
-                    id: id
-                },
+                data: data,
                 success: function (data) {
-                    window.location.reload();
+                    //重载数据
+                    getData();
                 },
                 error: function (e) {
                     //alert("ERROR: ", e);
@@ -232,6 +270,81 @@
             });
         }
 
+    }
+
+    //删除多条
+    function removeSelected() {
+        var checkedList = new Array();
+        $("input[name='id']:checked").each(function () {
+            checkedList.push(parseInt($(this).val()));
+        });
+
+        if (checkedList.length == 0) {
+            alert("请选择要删除的行！");
+        } else {
+            if (confirm("确定删除商品分类？")) {
+                var data = {"ids": checkedList};
+                $.ajax({
+                    type: "POST",
+                    url: "/product/removeProductTypes",
+                    traditional: true,
+                    data: data,
+                    success: function (data) {
+                        //重载数据
+                        getData();
+                    },
+                    error: function (e) {
+                        //alert("ERROR: ", e);
+                        console.log("ERROR: ", e);
+                    }
+                });
+            }
+        }
+    }
+
+    // 加载修改框
+    function modify(id) {
+        $.ajax({
+            url: '/product/loadProductType',
+            data: {"id": id},
+            type: 'GET',
+            success: function (result) {
+                $("#m_id").val(id);
+                $("#m_name").val(result.data.name);
+                $("#m_code").val(result.data.code);
+                //打开修改框
+                $("#modifyModal").modal('show');
+            },
+            error: function () {
+                alert("数据加载失败！");
+            }
+        });
+    }
+
+    // 修改
+    function saveProductType() {
+        // 调用后台方法进行保存
+        var data={};
+        data["id"]=$("#m_id").val();
+        data["code"]=$("#m_code").val();
+        data["name"]=$("#m_name").val();
+
+        $.ajax({
+            url: '/product/saveProductType',
+            type: 'POST',
+            contentType : 'application/json',
+            data: JSON.stringify(data),
+            success: function (data) {
+                // 关闭修改框
+                $("#modifyModal").modal('hide');
+                // 刷新列表
+                getData();
+            },
+            error: function (returndata) {
+                alert("修改失败！");
+            }
+
+        });
     }
 
 
