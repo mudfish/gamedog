@@ -49,4 +49,22 @@ public class DispatchController {
     public String productType(){
         return "product/productType";
     }
+
+    /**
+     * 添加商品
+     * @return
+     */
+    @RequestMapping("/product/addProduct")
+    public String addProduct(){
+        return "product/addProduct";
+    }
+
+    /**
+     * 商品列表
+     * @return
+     */
+    @RequestMapping("/product/productList")
+    public String productList(){
+        return "product/productList";
+    }
 }

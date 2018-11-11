@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="productMapper">
+    <resultMap id="productMap" type="com.laoxu.gamedog.model.product.Product">
+        <result property="id" column="ID"/>
+        <result property="orderNo" column="ORDER_NO"/>
+        <result property="productTypeId" column="product_id"/>
+        <result property="name" column="NAME"/>
+        <result property="price" column="PRICE"/>
+        <result property="storeQty" column="store_qty"/>
+        <result property="creater" column="CREATER"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="updater" column="UPDATER"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.laoxu.gamedog.model.product.Product">
+      insert into product (
+              order_no,
+              product_type_id,
+              name,
+              price,
+              store_qty,
+              creater,
+              create_time,
+              updater,
+              update_time
+              )
+      VALUES (
+            #{orderNo},
+            #{productTypeId},
+            #{name},
+            #{price},
+            #{storeQty},
+            #{creater},
+            #{createTime},
+            #{updater},
+            #{updateTime}
+          )
+    </insert>
+
+    <update id="update" parameterType="com.laoxu.gamedog.model.product.Product">
+        update product
+        set order_no=#{orderNo},
+            product_type_id=#{productTypeId},
+            name=#{name},
+            price=#{price},
+            store_qty=#{storeQty},
+            updater=#{updater},
+            update_time=#{updateTime}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM product
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        DELETE FROM product
+        WHERE id IN
+        <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="load" parameterType="java.lang.Long" resultMap="productMap">
+        select id,
+               order_no,
+               product_type_id,
+               name,
+              price,
+              store_qty,
+              creater,
+              create_time,
+              updater,
+              update_time
+        from product
+        where id = #{id}
+    </select>
+
+    <select id="selectAll" resultType="map">
+        select t1.id,
+               t1.product_type_id as "productTypeId",
+               t1.name,
+              t1.price,
+              t1.store_qty as "storeQty",
+              t2.name as "productType",
+              t1.order_no as "orderNo"
+        from product t1 left join product_type t2 on t1.product_type_id=t2.id
+        order by t1.order_no, t1.update_time desc
+    </select>
+
+    <select id="count" parameterType="Map" resultType="java.lang.Integer">
+        select count(*)
+        from product
+        <where>
+            <if test="name!=null and name!=''">
+                AND name = #{name}
+            </if>
+        </where>
+    </select>
+</mapper>

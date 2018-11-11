@@ -85,7 +85,7 @@
                                 </div>
                             </div>
                             <div class="row col-md-12 table-responsive">
-                                <table id="dataTable" class="table table-bordered table-hover">
+                                <table id="dataTable" class="table table-bordered table-hover table-striped">
                                     <thead>
                                     <tr>
                                         <th class="center">
@@ -177,7 +177,7 @@
         //console.log(JSON.stringify(form.serializeJSON()));
 
         $.ajax({
-            url: "/product/saveProductType",
+            url: "/productType/save",
             type: "POST",
             contentType: "application/json",
             dataType: "json",
@@ -205,7 +205,7 @@
         curPageNo = pageNo;
         $.ajax({
             type: "GET",
-            url: "/product/listProductType",
+            url: "/productType/list",
             success: function (data) {
                 var dataRow = "";
                 var d = new Date();
@@ -257,7 +257,7 @@
             var data = {"id": id};
             $.ajax({
                 type: "POST",
-                url: "/product/removeProductType",
+                url: "/productType/remove",
                 data: data,
                 success: function (data) {
                     //重载数据
@@ -286,7 +286,7 @@
                 var data = {"ids": checkedList};
                 $.ajax({
                     type: "POST",
-                    url: "/product/removeProductTypes",
+                    url: "/productType/removes",
                     traditional: true,
                     data: data,
                     success: function (data) {
@@ -305,7 +305,7 @@
     // 加载修改框
     function modify(id) {
         $.ajax({
-            url: '/product/loadProductType',
+            url: '/productType/load',
             data: {"id": id},
             type: 'GET',
             success: function (result) {
@@ -330,7 +330,7 @@
         data["name"]=$("#m_name").val();
 
         $.ajax({
-            url: '/product/saveProductType',
+            url: '/productType/save',
             type: 'POST',
             contentType : 'application/json',
             data: JSON.stringify(data),

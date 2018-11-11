@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                             <div class="row col-md-12 table-responsive">
-                                <table id="dataTable" class="table table-bordered table-hover">
+                                <table id="dataTable" class="table table-bordered table-hover table-striped">
                                     <thead>
                                     <tr>
                                         <th>账号</th>
@@ -147,8 +147,8 @@
                 success: function (data) {
                     var dataRow = "";
                     var pager = "";
-                    var pre = "<li><a href=\'javascript:void(0);\' onclick=\'pre();\'>上一页</a></li>";
-                    var next = "<li><a href=\'javascript:void(0);\' onclick=\'next();\'>下一页</a></li>";
+                    var pre = "<button class='btn btn-sm btn-default' onclick='pre();'>上一页</button>";
+                    var next = "<button class='btn btn-sm btn-default' onclick='next();'>下一页</button>";
                     var totalPages = data.totalPages;
                     /*console.log(JSON.stringify(data));
                     console.log('totalPages:'+totalPages);
@@ -167,7 +167,6 @@
                         if (curPageNo == 1) {
                             pager = next;
                         }
-
                     }
 
                     $.each(
@@ -195,8 +194,8 @@
                     $("#dataTable tbody").append(dataRow);
                     $("#pager").empty();
                     $("#pager").append(pager);
-                    $("#dataTable tbody tr:odd").addClass("info");
-                    $("#dataTable tbody tr:even").addClass("success");
+                    //$("#dataTable tbody tr:odd").addClass("info");
+                    //$("#dataTable tbody tr:even").addClass("success");
                 },
                 error: function (e) {
                     //alert("ERROR: " + e.responseText);
@@ -224,7 +223,6 @@
                 }
             });
         }
-
     }
 
     //下载文件
