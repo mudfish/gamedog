@@ -76,235 +76,238 @@
         </div><!-- /.main-content -->
         <!--编辑框-->
         <!-- 编辑用户信息  模态窗口-->
-        <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog"
-             aria-labelledby="modifyModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"
-                                aria-hidden="true">×
-                        </button>
-                        <h4 class="modal-title" id="modifyModalLabel">修改</h4>
+        <form class="form-horizontal" role="form" id="edit-form">
+            <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog"
+                 aria-labelledby="modifyModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">×
+                            </button>
+                            <h4 class="modal-title" id="modifyModalLabel">修改</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="m_productTypeId">
+                                    商品分类： </label>
+                                <div class="col-sm-9">
+                                    <select id="m_productTypeId" name="productTypeId" required="required" class="input-large">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="m_name">
+                                    商品名称： </label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="m_name" name="name" class="input-large"
+                                           required="required"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="m_price">
+                                    商品价格： </label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="m_price" name="price" class="input-large"
+                                           placeholder="请输入数字"
+                                           required="required"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="m_storeQty">
+                                    商品库存： </label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="m_storeQty" name="storeQty" class="input-large"
+                                           placeholder="请输入数字" required="required"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="m_orderNo">
+                                    排序编号： </label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="m_orderNo" name="orderNo" class="input-large"
+                                           placeholder="请输入数字" required="required"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer center">
+                            <button type="button" class="btn btn-default middle" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary middle">保存</button>
+                            <input type="hidden" id="m_id" name="id">
+                        </div>
                     </div>
-                    <form class="form-horizontal" role="form" id="edit-form">
-                    <div class="modal-body col-sm-12">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="m_productTypeId">
-                                商品分类： </label>
-                            <div class="col-sm-9">
-                                <select id="m_productTypeId" name="productTypeId" required="required">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="m_name">
-                                商品名称： </label>
-                            <div class="col-sm-9">
-                            <input type="text" id="m_name" name="name" class="input-middle" required="required"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="m_price">
-                                商品价格： </label>
-                            <div class="col-sm-9">
-                            <input type="text" id="m_price" name="price" class="input-middle" placeholder="请输入数字"
-                                   required="required"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="m_storeQty">
-                                商品库存： </label>
-                            <div class="col-sm-9">
-                            <input type="text" id="m_storeQty" name="storeQty" class="input-middle"
-                                   placeholder="请输入数字" required="required"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="m_orderNo">
-                                排序编号： </label>
-                            <div class="col-sm-9">
-                            <input type="text" id="m_orderNo" name="orderNo" class="input-middle"
-                                   placeholder="请输入数字" required="required"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer center">
-                        <button type="button" class="btn btn-default middle" data-dismiss="modal">关闭</button>
-                        <button type="submit" class="btn btn-primary middle">保存</button>
-                        <input type="hidden" id="m_id" name="id">
-                    </div>
-                    </form>
+                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-content -->
+                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!--页脚-->
-        <div th:replace="fragments/footer::footer"/>
+        </form>
+    </div> <!-- /.main-content -->
+    <!--页脚-->
+    <div th:replace="fragments/footer::footer"/>
 
-    </div><!-- /.main-container -->
+</div><!-- /.main-container -->
 
-    <!-- 尾部js-->
-    <div th:replace="fragments/header::bottom-css-js"/>
-    <!--bootstrap-table-->
-
-
-    <script type="text/javascript">
-        $(function () {
-            findMenu();
-
-            //加载表格数据
-            $('#tb_products').bootstrapTable({
-                url: '/product/list',//获取所有数据的接口
-                method: 'get',                      //请求方式（*）
-                toolbar: '#toolbar',                //工具按钮用哪个容器
-                pagination: true,                   //是否显示分页（*）
-                striped: true,                      //是否显示行间隔色
-                cache: false,
-                //sortOrder: "asc",                   //排序方式
-                uniqueId: "id",                 //每一行的唯一标识，一般为主键列
-                pageSize: 10,                       //每页的记录行数（*）
-                pageList: [5, 10, 20],//可供选择的每页的行数（*）
-                showRefresh: true,                  //是否显示刷新按钮
-                showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
-                buttonsAlign: "left",                //指定 按钮栏 水平方向的位置。'left' 或 'right'
-                columns: [
-                    {
-                        checkbox: true
-                    }, {
-                        field: 'productTypeId',
-                        title: '商品分类ID',
-                        visible: false
-                    }, {
-                        field: 'productType',//与返回数据对象属性一致
-                        title: '商品分类'//表头显示
-                    }, {
-                        field: 'name',
-                        title: '商品名称'
-                    }, {
-                        field: 'price',
-                        title: '商品价格'
-                    }, {
-                        field: 'storeQty',
-                        title: '商品库存'
-                    }, {
-                        field: 'orderNO',
-                        title: '排序号',
-                        visible: false
-                    }, {
-                        field: 'operation',
-                        title: '操作',
-                        align: 'center',
-                        events: operateEvents,//给按钮注册事件
-                        formatter: addFunctionAlty//表格中增加按钮
-                    }]
-            });
-
-            // 删除
-            $("#btn_delete").click(function () {
-                var ids = $.map($("#tb_products").bootstrapTable("getSelections"), function (row) {
-                    return row.id;
-                });
-
-                if (ids.length == 0) {
-                    alert("请选择要删除的行！");
-                } else {
-                    if (confirm("确定要删除这些行？")) {
-                        $.ajax({
-                            type: "POST",
-                            url: "/product/removes",
-                            data: {"ids": ids},
-                            traditional: true,
-                            success: function (data) {
-                                //刷新列表
-                                $('#tb_products').bootstrapTable('refresh');
-                            },
-                            error: function (e) {
-                                console.log("ERROR: ", e);
-                            }
-                        });
-                    }
-                }
-            });
+<!-- 尾部js-->
+<div th:replace="fragments/header::bottom-css-js"/>
+<!--bootstrap-table-->
 
 
+<script type="text/javascript">
+    $(function () {
+        findMenu();
+
+        //加载表格数据
+        $('#tb_products').bootstrapTable({
+            url: '/product/list',//获取所有数据的接口
+            method: 'get',                      //请求方式（*）
+            toolbar: '#toolbar',                //工具按钮用哪个容器
+            pagination: true,                   //是否显示分页（*）
+            striped: true,                      //是否显示行间隔色
+            cache: false,
+            //sortOrder: "asc",                   //排序方式
+            uniqueId: "id",                 //每一行的唯一标识，一般为主键列
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [5, 10, 20],//可供选择的每页的行数（*）
+            showRefresh: true,                  //是否显示刷新按钮
+            showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+            buttonsAlign: "left",                //指定 按钮栏 水平方向的位置。'left' 或 'right'
+            columns: [
+                {
+                    checkbox: true
+                }, {
+                    field: 'productTypeId',
+                    title: '商品分类ID',
+                    visible: false
+                }, {
+                    field: 'productType',//与返回数据对象属性一致
+                    title: '商品分类'//表头显示
+                }, {
+                    field: 'name',
+                    title: '商品名称'
+                }, {
+                    field: 'price',
+                    title: '商品价格'
+                }, {
+                    field: 'storeQty',
+                    title: '商品库存'
+                }, {
+                    field: 'orderNO',
+                    title: '排序号',
+                    visible: false
+                }, {
+                    field: 'operation',
+                    title: '操作',
+                    align: 'center',
+                    events: operateEvents,//给按钮注册事件
+                    formatter: addFunctionAlty//表格中增加按钮
+                }]
         });
 
-        //添加操作按钮
-        function addFunctionAlty(value, row, index) {
-            return [
-                '<button type="button" id="btn_edit" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modifyModal">修改</button>'
-            ].join('');
-        }
+        // 删除
+        $("#btn_delete").click(function () {
+            var ids = $.map($("#tb_products").bootstrapTable("getSelections"), function (row) {
+                return row.id;
+            });
 
-        //添加按钮事件
-        window.operateEvents = {
-            // 点击修改按钮执行的方法
-            'click #btn_edit': function (e, value, row, index) {
-                //alert(JSON.stringify(row));
-                //填充表单数据
-                $("#m_id").val(row.id);
-                $("#m_name").val(row.name);
-                $("#m_price").val(row.price);
-                $("#m_storeQty").val(row.storeQty);
-                $("#m_orderNo").val(row.orderNo);
-                //加载商品分类
-                $.ajax({
-                    url: "/productType/list",
-                    type: "GET",
-                    success: function (result) {
-                        var options="";
-                        $.each(result.data, function (i,r) {
-                            if(r.id==row.productTypeId){
-                                options+='<option value='+r.id+' selected="selected">'+r.name+'</option>';
-                            }else{
-                                options+='<option value='+r.id+'>'+r.name+'</option>';
-                            }
-                        });
-                        $("#m_productTypeId").append(options);
-                    }
-                });
-                e.preventDefault(); // avoid to execute the actual submit of the form.
+            if (ids.length == 0) {
+                alert("请选择要删除的行！");
+            } else {
+                if (confirm("确定要删除这些行？")) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/product/removes",
+                        data: {"ids": ids},
+                        traditional: true,
+                        success: function (data) {
+                            //刷新列表
+                            $('#tb_products').bootstrapTable('refresh');
+                        },
+                        error: function (e) {
+                            console.log("ERROR: ", e);
+                        }
+                    });
+                }
             }
-        };
-
-        //修改
-        $("#edit-form").submit(function (e) {
-            var form = $(this);
-            //console.log(JSON.stringify(form.serializeJSON()));
-
-            $.ajax({
-                url: "/product/save",
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                data: JSON.stringify(form.serializeJSON()),
-                success: function (data) {
-                    if (data.success) {
-                        //清空模态框数据
-                        $("#id").val("");
-                        $("#productTypeId>option").remove();
-                        $("#name").val("");
-                        $("#price").val("");
-                        $("#storeQty").val("");
-                        $("#orderNo").val("");
-                        //刷新列表
-                        $('#tb_products').bootstrapTable('refresh');
-                        // 关闭修改框
-                        $("#modifyModal").modal('hide');
-                    } else {
-                        alert(data.message);
-                    }
-                }
-            });
-
-            e.preventDefault(); // avoid to execute the actual submit of the form.
-
-
         });
 
 
-    </script>
+    });
+
+    //添加操作按钮
+    function addFunctionAlty(value, row, index) {
+        return [
+            '<button type="button" id="btn_edit" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modifyModal">修改</button>'
+        ].join('');
+    }
+
+    //添加按钮事件
+    window.operateEvents = {
+        // 点击修改按钮执行的方法
+        'click #btn_edit': function (e, value, row, index) {
+            //alert(JSON.stringify(row));
+            //填充表单数据
+            $("#m_id").val(row.id);
+            $("#m_name").val(row.name);
+            $("#m_price").val(row.price);
+            $("#m_storeQty").val(row.storeQty);
+            $("#m_orderNo").val(row.orderNo);
+            //加载商品分类
+            $.ajax({
+                url: "/productType/list",
+                type: "GET",
+                success: function (result) {
+                    var options = "";
+                    $.each(result.data, function (i, r) {
+                        if (r.id == row.productTypeId) {
+                            options += '<option value=' + r.id + ' selected="selected">' + r.name + '</option>';
+                        } else {
+                            options += '<option value=' + r.id + '>' + r.name + '</option>';
+                        }
+                    });
+                    $("#m_productTypeId").append(options);
+                }
+            });
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+        }
+    };
+
+    //修改
+    $("#edit-form").submit(function (e) {
+        var form = $(this);
+        //console.log(JSON.stringify(form.serializeJSON()));
+
+        $.ajax({
+            url: "/product/save",
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(form.serializeJSON()),
+            success: function (data) {
+                if (data.success) {
+                    //清空模态框数据
+                    $("#id").val("");
+                    $("#productTypeId>option").remove();
+                    $("#name").val("");
+                    $("#price").val("");
+                    $("#storeQty").val("");
+                    $("#orderNo").val("");
+                    //刷新列表
+                    $('#tb_products').bootstrapTable('refresh');
+                    // 关闭修改框
+                    $("#modifyModal").modal('hide');
+                } else {
+                    alert(data.message);
+                }
+            }
+        });
+
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+
+
+    });
+
+
+</script>
 
 </body>
 </html>
