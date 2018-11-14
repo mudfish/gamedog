@@ -98,3 +98,8 @@ var checkMe = function(e){
 }
 
 
+//清空文件域
+var clearInputFile=function (file) {
+    file.after(file.clone().val(""));
+    file.remove();
+}

@@ -2,6 +2,9 @@ package com.laoxu.gamedog.model.product;
 
 import com.laoxu.gamedog.framework.BaseModel;
 
+/**
+ * 商品
+ */
 public class Product extends BaseModel {
     private Long productTypeId;
     private String name;

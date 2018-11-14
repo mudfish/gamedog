@@ -6,10 +6,10 @@
     <resultMap id="productMap" type="com.laoxu.gamedog.model.product.Product">
         <result property="id" column="ID"/>
         <result property="orderNo" column="ORDER_NO"/>
-        <result property="productTypeId" column="product_id"/>
+        <result property="productTypeId" column="PRODUCT_TYPE_ID"/>
         <result property="name" column="NAME"/>
         <result property="price" column="PRICE"/>
-        <result property="storeQty" column="store_qty"/>
+        <result property="storeQty" column="STORE_QTY"/>
         <result property="creater" column="CREATER"/>
         <result property="createTime" column="CREATE_TIME"/>
         <result property="updater" column="UPDATER"/>

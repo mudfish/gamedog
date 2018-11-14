@@ -7,6 +7,7 @@ import com.laoxu.gamedog.framework.BaseModel;
  *
  * @author xusucheng
  * @create 2018-11-06
+ *
  **/
 public class ProductType extends BaseModel {
     // 名称

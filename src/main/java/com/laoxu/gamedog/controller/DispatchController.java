@@ -67,4 +67,13 @@ public class DispatchController {
     public String productList(){
         return "product/productList";
     }
+
+    /**
+     * 添加卡密
+     * @return
+     */
+    @RequestMapping("/product/addCard")
+    public String addCard(){
+        return "product/addCard";
+    }
 }
