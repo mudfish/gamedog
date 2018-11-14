@@ -1,10 +1,11 @@
-package com.laoxu.gamedog.controller.card;
+package com.laoxu.gamedog.controller.product;
 
 import com.laoxu.gamedog.config.UploadConfig;
 import com.laoxu.gamedog.framework.Result;
 import com.laoxu.gamedog.framework.ResultUtil;
 import com.laoxu.gamedog.model.product.Card;
 import com.laoxu.gamedog.service.product.CardService;
+import com.laoxu.gamedog.util.ExcelPOIHelper;
 import com.laoxu.gamedog.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -43,7 +44,6 @@ public class CardController {
         if(file.isEmpty()){
             return ResultUtil.fail("文件为空！");
         }
-
         //获取上传路径
         String uploadPath = FileUtil.getUploadPath(uploadConfig);
         //获取文件名
@@ -61,6 +61,22 @@ public class CardController {
             e.printStackTrace();
         }
         //读取文件
+        Map<Integer,List<String>> result=null;
+        try {
+            result = ExcelPOIHelper.readExcel(targetLocation.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(result.size()==0){
+            return ResultUtil.fail("文件为空！");
+        }else {
+            List<String> list = null;
+            for (int i = 0; i < result.size(); i++) {
+                list=result.get(i);
+                System.out.println(list);
+            }
+        }
         //插入表数据
         //返回处理结果
 
