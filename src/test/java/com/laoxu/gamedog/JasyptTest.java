@@ -31,7 +31,7 @@ public class JasyptTest {
     public void getPass(){
         String url = encryptor.encrypt("jdbc:mysql://119.188.247.55/dl_adb_all?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true");
         String name = encryptor.encrypt("root");
-        String password = encryptor.encrypt("kS37jaF53XZjjbJm");
+        String password = encryptor.encrypt("123444444");
         System.out.println(url);
         System.out.println(name);
         System.out.println(password);
