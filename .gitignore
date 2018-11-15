@@ -28,3 +28,6 @@ logs
 
 ##application.yml##
 src/main/resources/application.yml
+
+##password test##
+src/main/test/java/com/laoxu/gamedog/JasyptTest
