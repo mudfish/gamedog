@@ -203,6 +203,9 @@
                 }]
         });
 
+        //填充商品名称列表
+
+
         // 删除
         $("#btn_delete").click(function () {
             var ids = $.map($("#tb_products").bootstrapTable("getSelections"), function (row) {
@@ -251,7 +254,7 @@
             $("#m_price").val(row.price);
             $("#m_storeQty").val(row.storeQty);
             $("#m_orderNo").val(row.orderNo);
-            //加载商品分类
+            //加载商品
             $.ajax({
                 url: "/productType/list",
                 type: "GET",
@@ -285,12 +288,12 @@
             success: function (data) {
                 if (data.success) {
                     //清空模态框数据
-                    $("#id").val("");
-                    $("#productTypeId>option").remove();
-                    $("#name").val("");
-                    $("#price").val("");
-                    $("#storeQty").val("");
-                    $("#orderNo").val("");
+                    $("#m_id").val("");
+                    $("#m_productTypeId>option").remove();
+                    $("#m_name").val("");
+                    $("#m_price").val("");
+                    $("#m_storeQty").val("");
+                    $("#m_orderNo").val("");
                     //刷新列表
                     $('#tb_products').bootstrapTable('refresh');
                     // 关闭修改框
@@ -303,7 +306,11 @@
 
         e.preventDefault(); // avoid to execute the actual submit of the form.
 
+    });
 
+    //自定义编辑框关闭事件
+    $('#modifyModal').on('hide.bs.modal', function() {
+        $("#m_productTypeId>option").remove();
     });
 
 

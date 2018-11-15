@@ -4,6 +4,7 @@ import com.laoxu.gamedog.framework.AbstractService;
 import com.laoxu.gamedog.model.product.Card;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,11 @@ import java.util.Map;
 public class CardService extends AbstractService {
 
     public void save(Card entity){
+        entity.setUpdater("admin");
+        entity.setUpdateTime(new Date());
         if(entity.getId() == null){
+            entity.setCreater("admin");
+            entity.setCreateTime(new Date());
             insert("cardMapper.insert", entity);
         }else {
             insert("cardMapper.update", entity);

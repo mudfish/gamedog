@@ -1,5 +1,7 @@
 package com.laoxu.gamedog.util;
 
+import com.sun.corba.se.spi.orbutil.threadpool.Work;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -11,23 +13,25 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FillPatternType;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+
+import java.io.*;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ExcelPOIHelper {
-
-    public static Map<Integer, List<String>> readExcel(String fileLocation) throws IOException {
-
+    public static Map<Integer, List<String>> readExcel(String fileLocation, String fileType) throws IOException {
         Map<Integer, List<String>> data = new HashMap<>();
         FileInputStream file = new FileInputStream(new File(fileLocation));
-        Workbook workbook = new XSSFWorkbook(file);
+        Workbook workbook = null;
+        if(fileType.toLowerCase().equals("xls")){
+            workbook = new HSSFWorkbook(file);
+        }else{
+            workbook = new XSSFWorkbook(file);
+        }
+
         Sheet sheet = workbook.getSheetAt(0);
         int i = 0;
         for (Row row : sheet) {

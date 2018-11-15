@@ -19,6 +19,16 @@ public class Card extends BaseModel {
     //优先级
     private Integer priority;
 
+    public Card(){
+
+    }
+
+    public Card(Long productId, String cardNo, String cardPassword) {
+        this.productId = productId;
+        this.cardNo = cardNo;
+        this.cardPassword = cardPassword;
+    }
+
     public Long getProductId() {
         return productId;
     }

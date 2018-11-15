@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -40,8 +41,8 @@ public class CardController {
     private UploadConfig uploadConfig;
 
     @PostMapping("/upload")
-    public Result<String> upload(@RequestParam("file") MultipartFile file, @RequestParam("productId") Long productId){
-        if(file.isEmpty()){
+    public Result<String> upload(@RequestParam("file") MultipartFile file, @RequestParam("productId") Long productId) {
+        if (file.isEmpty()) {
             return ResultUtil.fail("文件为空！");
         }
         //获取上传路径
@@ -61,32 +62,44 @@ public class CardController {
             e.printStackTrace();
         }
         //读取文件
-        Map<Integer,List<String>> result=null;
+        Map<Integer, List<String>> result = null;
         try {
-            result = ExcelPOIHelper.readExcel(targetLocation.toString());
+            result = ExcelPOIHelper.readExcel(targetLocation.toString(), fileExtensionName);
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            return ResultUtil.fail("读取文件异常！"+e.getMessage());
         }
 
-        if(result.size()==0){
+        if (result.size() == 0) {
             return ResultUtil.fail("文件为空！");
-        }else {
-            List<String> list = null;
-            for (int i = 0; i < result.size(); i++) {
-                list=result.get(i);
-                System.out.println(list);
-            }
         }
-        //插入表数据
-        //返回处理结果
 
+        List<String> list = null;
+        List<Card> cards = new ArrayList<>();
+        String productName = "";
+        //跳过第一行
+        for (int i = 1; i < result.size(); i++) {
+            list = result.get(i);
+            if (list.size() != 2) {
+                return ResultUtil.fail("文件列数不对！");
+            }
+
+            cards.add(new Card(productId,list.get(0), list.get(1)));
+        }
+
+        //插入表数据
+        for (int i = 0; i < cards.size(); i++) {
+            cardService.save(cards.get(i));
+        }
+        //返回处理结果
         return ResultUtil.ok();
     }
 
 
     /**
-     * 保存商品
-     * @param card
+     * 保存
+     * @param product
      * @return
      */
     @PostMapping("/save")
@@ -95,37 +108,30 @@ public class CardController {
             return ResultUtil.fail("请登录后操作！");
         }
 
-        if(card.getId()==null){
-            card.setCreater(principal.getName());
-            card.setCreateTime(new Date());
-        }
-
-        card.setUpdater(principal.getName());
-        card.setUpdateTime(new Date());
-
         cardService.save(card);
 
         return ResultUtil.ok();
     }
 
-
     /**
-     * 获取商品列表
+     * 获取卡密列表
+     *
      * @return
      */
     @GetMapping("/list")
-    public List<Map<String,Object>> list(){
-        List<Map<String,Object>> products = cardService.list();
+    public List<Map<String, Object>> list() {
+        List<Map<String, Object>> cards = cardService.list();
 
-        return products;
+        return cards;
     }
 
     /**
      * 获取商品
+     *
      * @return
      */
     @GetMapping("/load")
-    public Result<Card> load(@RequestParam("id") Long id){
+    public Result<Card> load(@RequestParam("id") Long id) {
         Card card = cardService.load(id);
 
         return ResultUtil.ok(card);
@@ -133,11 +139,12 @@ public class CardController {
 
     /**
      * 删除单条商品
+     *
      * @param id
      * @return
      */
     @PostMapping("/remove")
-    public Result<String> removeProductType(@RequestParam("id") Long id){
+    public Result<String> removeProductType(@RequestParam("id") Long id) {
         cardService.remove(id);
 
         return ResultUtil.ok();
@@ -145,11 +152,12 @@ public class CardController {
 
     /**
      * 删除多条商品
+     *
      * @param ids
      * @return
      */
     @PostMapping("/removes")
-    public Result<String> removes(@RequestParam("ids") Long[] ids){
+    public Result<String> removes(@RequestParam("ids") Long[] ids) {
         cardService.remove(ids);
 
         return ResultUtil.ok();
