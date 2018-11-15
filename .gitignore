@@ -30,4 +30,4 @@ logs
 src/main/resources/application.yml
 
 ##password test##
-src/main/test/java/com/laoxu/gamedog/JasyptTest
+src/test/java/com/laoxu/gamedog/JasyptTest.java
