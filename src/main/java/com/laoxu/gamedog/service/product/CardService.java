@@ -42,8 +42,14 @@ public class CardService extends AbstractService {
         delete("cardMapper.deleteByIds", param);
     }
 
-    public List<Map<String,Object>> list(){
-        return selectList("cardMapper.selectAll");
+    public List<Map<String,Object>> list(Integer limit, Integer offset, Long productId, String cardNo){
+        Map<String,Object> param = new HashMap<>();
+        param.put("limit", limit);
+        param.put("offset",offset);
+        param.put("productId",productId);
+        param.put("cardNo", cardNo);
+
+        return selectList("cardMapper.selectAll", param);
     }
 
     public Card load(Long id){

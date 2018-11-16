@@ -3,6 +3,7 @@ package com.laoxu.gamedog.controller.product;
 import com.laoxu.gamedog.config.UploadConfig;
 import com.laoxu.gamedog.framework.Result;
 import com.laoxu.gamedog.framework.ResultUtil;
+import com.laoxu.gamedog.framework.pagination.BtPagingResult;
 import com.laoxu.gamedog.model.product.Card;
 import com.laoxu.gamedog.service.product.CardService;
 import com.laoxu.gamedog.util.ExcelPOIHelper;
@@ -67,8 +68,8 @@ public class CardController {
             result = ExcelPOIHelper.readExcel(targetLocation.toString(), fileExtensionName);
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (Exception e){
-            return ResultUtil.fail("读取文件异常！"+e.getMessage());
+        } catch (Exception e) {
+            return ResultUtil.fail("读取文件异常！" + e.getMessage());
         }
 
         if (result.size() == 0) {
@@ -85,7 +86,7 @@ public class CardController {
                 return ResultUtil.fail("文件列数不对！");
             }
 
-            cards.add(new Card(productId,list.get(0), list.get(1)));
+            cards.add(new Card(productId, list.get(0), list.get(1)));
         }
 
         //插入表数据
@@ -99,12 +100,13 @@ public class CardController {
 
     /**
      * 保存
+     *
      * @param product
      * @return
      */
     @PostMapping("/save")
-    public Result<String> save(@RequestBody Card card, Principal principal){
-        if(principal==null){
+    public Result<String> save(@RequestBody Card card, Principal principal) {
+        if (principal == null) {
             return ResultUtil.fail("请登录后操作！");
         }
 
@@ -114,15 +116,20 @@ public class CardController {
     }
 
     /**
-     * 获取卡密列表
+     * 获取卡密列表（分页）
      *
      * @return
      */
     @GetMapping("/list")
-    public List<Map<String, Object>> list() {
-        List<Map<String, Object>> cards = cardService.list();
+    public BtPagingResult<Map<String, Object>> list(@RequestParam("limit") Integer limit,
+                                                          @RequestParam("offset") Integer offset,
+                                                          @RequestParam("s_productId") Long productId,
+                                                          @RequestParam("s_cardNo") String cardNo) {
+        List<Map<String, Object>> cards = cardService.list(limit,offset,productId,cardNo);
 
-        return cards;
+        BtPagingResult<Map<String, Object>> result = new BtPagingResult<>(cards);
+
+        return result;
     }
 
     /**

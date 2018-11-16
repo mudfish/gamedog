@@ -2,25 +2,33 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cardMapper">
-    <resultMap id="cardMap" type="com.laoxu.gamedog.model.product.Card">
+<mapper namespace="orderMapper">
+    <resultMap id="cardMap" type="com.laoxu.gamedog.model.order.Order">
         <result property="id" column="ID"/>
         <result property="productId" column="product_id"/>
-        <result property="cardNo" column="CARD_NO"/>
-        <result property="cardPassword" column="CARD_PASSWORD"/>
-        <result property="priority" column="PRIORITY"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="qty" column="qty"/>
+        <result property="amount" column="amount"/>
+        <result property="status" column="status"/>
+        <result property="paySource" column="pay_source"/>
+        <result property="payNo" column="pay_no"/>
+        <result property="contact" column="contact"/>
         <result property="creater" column="CREATER"/>
         <result property="createTime" column="CREATE_TIME"/>
         <result property="updater" column="UPDATER"/>
         <result property="updateTime" column="UPDATE_TIME"/>
     </resultMap>
 
-    <insert id="insert" parameterType="com.laoxu.gamedog.model.product.Card">
-      insert into card (
+    <insert id="insert" parameterType="com.laoxu.gamedog.model.order.Order">
+      insert into order (
               product_id,
-              card_no,
-              card_password,
-              priority,
+              order_no,
+              qty,
+              amount,
+              status,
+              pay_source,
+              pay_no,
+              contact,
               creater,
               create_time,
               updater,
@@ -28,9 +36,13 @@
               )
       VALUES (
             #{productId},
-            #{cardNo},
-            #{cardPassword},
-            #{priority},
+            #{orderNo},
+            #{qty},
+            #{amount},
+            #{status},
+            #{pay_source},
+            #{pay_no},
+            #{contact},
             #{creater},
             #{createTime},
             #{updater},
@@ -38,24 +50,24 @@
           )
     </insert>
 
-    <update id="update" parameterType="com.laoxu.gamedog.model.product.Card">
-        update card
-        set card_no=#{cardNo},
-            card_password=#{cardPassword},
+    <update id="update" parameterType="com.laoxu.gamedog.model.order.Order">
+        update order
+        set order_no=#{orderNo},
+            qty=#{qty},
             product_id=#{productId},
-            priority = #{priority},
+            amount = #{amount},
             updater=#{updater},
             update_time=#{updateTime}
         where id=#{id}
     </update>
 
     <delete id="deleteById">
-        DELETE FROM card
+        DELETE FROM order
         WHERE id = #{id}
     </delete>
 
     <delete id="deleteByIds">
-        DELETE FROM card
+        DELETE FROM order
         WHERE id IN
         <foreach collection="idAry" index="index" item="item" open="(" separator="," close=")">
             #{item}
@@ -65,14 +77,14 @@
     <select id="load" parameterType="java.lang.Long" resultMap="cardMap">
         select id,
                product_id,
-               card_no,
-               card_password,
-               priority,
+               order_no,
+               qty,
+               amount,
                creater,
                create_time,
                updater,
                update_time
-        from card
+        from order
         where id = #{id}
     </select>
 
@@ -80,20 +92,28 @@
         select t1.id,
                t1.product_id as "productId",
                t2.name as "productName",
-               t1.card_no as "cardNo",
-               t1.card_password as "cardPassword",
-               t1.priority as "priority",
+               t1.order_no as "orderNo",
+               t1.qty as "qty",
+               t1.amount as "amount",
                DATE_FORMAT(t1.create_time,'%Y-%m-%d %H:%I:%S') as "createTime"
-        from card t1 left join product t2 on t1.product_id=t2.id
-        order by t1.card_no, t1.update_time desc
+        from order t1 left join product t2 on t1.product_id=t2.id
+        <where>
+            <if test="productId!=null and productId!=0">
+                t1.product_id = #{productId}
+            </if>
+            <if test="orderNo!=null and orderNo!=''">
+                and t1.order_no like concat('%',#{orderNo},'%')
+            </if>
+        </where>
+        order by t1.order_no, t1.update_time desc limit #{offset},#{limit}
     </select>
 
     <select id="count" parameterType="Map" resultType="java.lang.Integer">
         select count(*)
-        from card
+        from order
         <where>
-            <if test="cardNo!=null and cardNo!=''">
-                AND card_no = #{cardNo}
+            <if test="orderNo!=null and orderNo!=''">
+                AND order_no = #{orderNo}
             </if>
         </where>
     </select>
