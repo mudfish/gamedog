@@ -86,4 +86,13 @@ public class DispatchController {
         return "product/cardList";
     }
 
+    /**
+     * 订单列表
+     * @return
+     */
+    @RequestMapping("/trade/orderList")
+    public String orderList(){
+        return "trade/orderList";
+    }
+
 }
