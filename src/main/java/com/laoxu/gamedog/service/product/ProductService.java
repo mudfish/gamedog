@@ -55,6 +55,16 @@ public class ProductService extends AbstractService {
         return selectList("productMapper.selectAll");
     }
 
+
+    /**
+     * 查询列表
+     * @return
+     */
+    public List<Map<String,Object>> list(Long productTypeId){
+        return selectList("productMapper.selectByProductTypeId",productTypeId);
+    }
+
+
     /**
      * 单查询
      * @return

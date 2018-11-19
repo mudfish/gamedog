@@ -60,6 +60,21 @@ public class ProductController {
         return products;
     }
 
+
+
+    /**
+     * 获取商品列表（根据商品分类ID）
+     * @return
+     */
+    @GetMapping("/listByProductTypeId")
+    public List<Map<String,Object>> listByProductTypeId(@RequestParam("productTypeId") Long productTypeId){
+        List<Map<String,Object>> products = productService.list(productTypeId);
+
+        return products;
+    }
+
+
+
     /**
      * 获取商品
      * @return

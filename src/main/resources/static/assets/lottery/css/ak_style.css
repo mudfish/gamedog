@@ -350,7 +350,8 @@ a:hover, a:active, a:focus {
     height: auto;
     border: #CCC solid 1px;
     overflow: hidden;
-    background: #f6f6f6 url(/static/assets/lottery/images/xzspbj.jpg) no-repeat;
+    /*background: #f6f6f6 url(/static/assets/lottery/images/xzspbj.jpg) no-repeat;*/
+    background: #f6f6f6;
     color: #252525;
     font-size: 14px;
     line-height: 42px;
@@ -464,7 +465,7 @@ a:hover, a:active, a:focus {
     width: 275px;
     border: 1px solid #d3d3d3;
     background: #FFF url(/static/assets/lottery/images/mianze.jpg) no-repeat top center;
-    height: auto;
+    height: 380px;
     overflow: hidden;
     margin-top: 20px;
     padding-bottom: 15px
@@ -743,7 +744,8 @@ a:hover, a:active, a:focus {
     left: 50%;
     margin-left: 550px;
     top: 67%;
-    background: #FFF url(/static/assets/lottery/images/qqdl.png) no-repeat top
+    background: #FFF
+    /*background: #FFF url(/static/assets/lottery/images/qqdl.png) no-repeat top*/
 }
 
 .fanhui {
@@ -754,7 +756,8 @@ a:hover, a:active, a:focus {
     left: 50%;
     margin-left: 550px;
     top: 80%;
-    background: #FFF url(/static/assets/lottery/images/zhiding.jpg) no-repeat top
+    background: #FFF
+    /*background: #FFF url(/static/assets/lottery/images/zhiding.jpg) no-repeat top*/
 }
 
 .tcan1 {

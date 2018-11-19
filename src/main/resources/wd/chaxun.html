@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body style="">
+
+
+<script language="JavaScript">
+    var xmlhttp;
+    try {
+        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (e) {
+        try {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        } catch (e) {
+            try {
+                xmlhttp = new XMLHttpRequest();
+            } catch (e) {
+            }
+        }
+    }
+
+    function chaka(dsum) {
+//alert(str);
+        huoqukami.innerHTML = "获取中<img src='/images/jload.gif'/>";
+
+        xmlhttp.open("get", "/inc/tika/?id=" + dsum + "&act=tika");
+        xmlhttp.onreadystatechange = function () {
+            if (200 == xmlhttp.status) {
+                if (xmlhttp.responseText == "ok") {
+                    window.document.location.href = "/tika?ka=" + dsum + "";
+                }
+                if (xmlhttp.responseText == "buzu") {
+                    huoqukami.innerHTML = "卡密不足，联系商户补卡";
+                }
+                if (xmlhttp.responseText == "err1") {
+                    huoqukami.innerHTML = "订单状态错误";
+                }
+                if (xmlhttp.responseText == "err2") {
+                    huoqukami.innerHTML = "订单备注错误";
+                }
+                if (xmlhttp.responseText == "err3") {
+                    window.document.location.href = "/tika?ka=" + dsum + "";
+                }
+            }
+        };
+        xmlhttp.send(null);
+    }
+</script>
+
+
+<div class="mian">
+    <div class="regbox conter">
+
+        <div class="nyclassbt01 conter">订单查询</div>
+
+        <form name="search" method="post" action="http://www.5kpay.com/chaxun">
+            <div class="buyform conter">
+                <div class="left" style="padding-left:260px; font-size:20px;">订单号或联系方式　<input name="con" id="con"
+                                                                                              type="text"
+                                                                                              class="inputkcha"
+                                                                                              onclick="this.value=&#39;&#39;"
+                                                                                              maxlength="30" value="">
+                </div>
+                <input style="cursor:pointer;" class="shier_chaxun" type="submit" name="Submit" id="tijiao"
+                       value="立即查询">
+                <input name="act" type="hidden" id="act" value="cha">
+            </div>
+        </form>
+
+
+        <br><br><br>
+        <div class="nyclassbt01 conter">浏览器缓存 <a href="http://www.5kpay.com/chaxun?act=qing"
+                                                 style="color:#F63">[清除缓存]</a></div>
+
+        <table border="0" align="center" cellpadding="0" cellspacing="0" class="table_style_a2">
+            <tbody>
+            <tr>
+                <th height="60" align="center" class="border_right border_bottom">订单编号
+                </th>
+                <th align="center" class="border_bottom border_right">金额
+                </th>
+                <th align="center" class="border_right border_bottom">商品名称
+                </th>
+                <th width="150" align="center" class="border_bottom border_right">创建时间
+                </th>
+                <th align="center" class="border_bottom border_right"><span style="color:#F60">联系商家</span>
+                </th>
+                <th align="center" class="border_bottom"><span style="color:#F60">订单状态</span>
+                </th>
+            </tr>
+
+
+            <tr>
+                <td align="center" class="border_right border_bottom">DAC065049951743346</td>
+                <td align="center" class="border_bottom border_right">8.00元</td>
+                <td align="center" class="border_right border_bottom"></td>
+                <td align="center" class="border_bottom border_right">2018/11/6 14:10:50</td>
+                <td align="center" class="border_bottom border_right" style="color:#F60"><a style="color:#F60"
+                                                                                            href="http://wpa.qq.com/msgrd?V=1&amp;Uin=342873516&amp;Site=%C1%AA%CF%B5%C9%CC%BC%D2&amp;Menu=yes"
+                                                                                            title="联系商家,请先加好友"
+                                                                                            target="_blank">QQ:342873516</a>
+                </td>
+                <td align="center" class="border_bottom">
+
+                    <!-- <span id="huoqukami" style="color: #00CC00;font-weight:bold;font-size:14px;cursor:pointer;" onClick="chaka('')">[提取卡密]</span> -->
+                    <img src="/static/assets/lottery/images/s02.gif"><a
+                        href="http://www.5kpay.com/tika?ka=DAC065049951743346"
+                        style="color: #00CC00;font-weight:bold;font-size:14px">[提取卡密]</a>
+                </td>
+            </tr>
+
+
+            </tbody>
+        </table>
+
+
+        <br><br>
+
+        <br>
+
+    </div>
+
+</div>
+
+
+
+<div class="clearit"></div>
+
+
+
+</body>
+</html>
