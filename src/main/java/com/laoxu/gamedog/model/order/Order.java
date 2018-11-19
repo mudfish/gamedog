@@ -95,4 +95,6 @@ public class Order extends BaseModel {
     public void setContact(String contact) {
         this.contact = contact;
     }
+
+
 }

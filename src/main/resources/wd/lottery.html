@@ -313,7 +313,44 @@
             $(".hot-dakai").val('提交中');
             $('#loading').show();
 
+            var param = {};
+            param["productId"] = Q_spid;
+            param["qty"] = Q_quanlity;
+            param["amount"] = Q_yingfu;
+            param["paySource"] = Q_payway;
+            param["contact"] = $("#contact").val();
+            param["status"] = 0;
 
+            //alert(JSON.stringify(param));
+            //生成订单
+            $.ajax({
+                url: "/order/add",
+                type: "POST",
+                data: JSON.stringify(param),
+                contentType: "application/json",
+                success: function (result) {
+                    $('#loading').hide();
+                    //开启支付框
+                    $('#hot').show();
+                    //订单信息
+                    $('#t_name').html(Q_spname);
+                    $('#t_lx').html($("#contact").val());
+                    $('#t_sum').html($("#quantity").val());
+                    $('#t_yf').html(Q_yingfu);
+                    $('#t_ddh').html(result.data.ddh);
+                }
+            });
+        });
+
+        //关闭支付窗口
+        $('.hot-close').on('click', function () {
+            $('#hot').hide();
+            $('#loading').hide();
+            $(".hot-dakai").attr("disabled", false);
+            $(".hot-dakai").val('确认支付');
+            $("#tcan1").attr("disabled", false);
+            $("#tcan1").val('确认支付');
+            clearInterval(timer);
         });
 
         //返回顶部
@@ -325,6 +362,8 @@
         $($("input[name='pid']")).on('click', function () {
             window.Q_payway = $(this).val();
         });
+
+
 
 
     });
