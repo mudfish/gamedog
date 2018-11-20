@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
+    <link href="/static/assets/lottery/css/akstyle.css" rel="stylesheet" type="text/css">
+    <script src="/static/assets/lottery/js/hm.js"></script>
+    <script src="/static/assets/lottery/js/jquery.min.js"></script>
+    <script src="/static/assets/lottery/js/jquery.flexslider-min.js"></script>
+    <title>订单查询</title>
 </head>
 <body style="">
 
@@ -25,7 +29,7 @@
 
     function chaka(dsum) {
 //alert(str);
-        huoqukami.innerHTML = "获取中<img src='/images/jload.gif'/>";
+        huoqukami.innerHTML = "获取中<img src='/static/assets/lottery/images/jload.gif'/>";
 
         xmlhttp.open("get", "/inc/tika/?id=" + dsum + "&act=tika");
         xmlhttp.onreadystatechange = function () {
@@ -49,6 +53,33 @@
         };
         xmlhttp.send(null);
     }
+
+    $(function () {
+        $("#tijiao").click(function (e) {
+            //查询
+            var orderNo=$("#con").val().trim();
+            if(orderNo==null || orderNo==""){
+                alert("请输入查询条件！");
+                return false;
+            }
+            $.ajax({
+                url: "/order/search",
+                type: "GET",
+                contentType: "application/json",
+                dataType: "json",
+                data: {"ka":orderNo},
+                success: function (data) {
+                    if (data.success) {
+                        alert(JSON.stringify(data));
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+
+            e.preventDefault();
+        });
+    });
 </script>
 
 
@@ -57,13 +88,13 @@
 
         <div class="nyclassbt01 conter">订单查询</div>
 
-        <form name="search" method="post" action="http://www.5kpay.com/chaxun">
+        <form name="search">
             <div class="buyform conter">
                 <div class="left" style="padding-left:260px; font-size:20px;">订单号或联系方式　<input name="con" id="con"
                                                                                               type="text"
                                                                                               class="inputkcha"
                                                                                               onclick="this.value=&#39;&#39;"
-                                                                                              maxlength="30" value="">
+                                                                                              maxlength="30" th:value="${orderNo}" />
                 </div>
                 <input style="cursor:pointer;" class="shier_chaxun" type="submit" name="Submit" id="tijiao"
                        value="立即查询">
@@ -73,9 +104,6 @@
 
 
         <br><br><br>
-        <div class="nyclassbt01 conter">浏览器缓存 <a href="http://www.5kpay.com/chaxun?act=qing"
-                                                 style="color:#F63">[清除缓存]</a></div>
-
         <table border="0" align="center" cellpadding="0" cellspacing="0" class="table_style_a2">
             <tbody>
             <tr>
@@ -127,9 +155,7 @@
 </div>
 
 
-
 <div class="clearit"></div>
-
 
 
 </body>

@@ -169,6 +169,7 @@
 
         //确认支付
         $(".qrzfan").click(function () {
+            var jddh = '';
             if (Q_flid == "0") {
                 alert("请选择商品分类");
                 $(".hot-dakai").attr("disabled", false);
@@ -338,8 +339,52 @@
                     $('#t_sum').html($("#quantity").val());
                     $('#t_yf').html(Q_yingfu);
                     $('#t_ddh').html(result.data.ddh);
+                    //重置订单号
+                    jddh = result.data.ddh;
                 }
             });
+
+            //支付图标
+            $('#t_pic').html("<img src=http://localhost:90/static/assets/lottery/images/" + Q_payway + ".gif>");
+
+            //二维码支付
+            $('#qrcodeurl').html('');		//初始二维码
+            if (Q_payway == 'ALIPAY') {
+                $('#payname').html('支付宝');
+            }	//初始二维码支付名称
+            if (Q_payway == 'WEIXIN') {
+                $('#payname').html('微信');
+            }
+            $('#tcan1').hide();				//按钮设置
+            $('#saofs').show();
+            showerwema('http://www.baidu.com/');
+
+            //获取结果
+            /*var handler = function () {
+                $.post("/pay/?id=" + jddh, null, function (msg) {
+                    if (msg == 'ok') {
+                        document.location.href = "/tika?ka=" + jddh;
+                        clearInterval(timer);
+                    }
+                });
+            };
+            timer = setInterval(handler, 2000);*/
+
+
+            //按钮 查看结果
+            $('#tcan2').on('click', function () {
+                window.open('http://localhost:90/wd/chaxun?ka=' + jddh);
+                evt.stopPropagation();
+            });
+
+            //按钮 提交表单
+            $('#tcan1').on('click', function () {
+                $('#formtj').submit();
+                $("#tcan1").attr("disabled", true);
+                $("#tcan1").val('正在付款');
+                evt.stopPropagation();
+            });
+
         });
 
         //关闭支付窗口
@@ -362,8 +407,6 @@
         $($("input[name='pid']")).on('click', function () {
             window.Q_payway = $(this).val();
         });
-
-
 
 
     });

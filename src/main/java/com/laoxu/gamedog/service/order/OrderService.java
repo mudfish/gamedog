@@ -80,7 +80,11 @@ public class OrderService extends AbstractService {
     }
 
     public List<Map<String, Object>> list(Map<String,Object> param){
-        return selectList("orderMapper.selectByParam",param);
+        return selectList("orderMapper.selectList",param);
+    }
+
+    public List<Map<String, Object>> search(String search){
+        return selectList("orderMapper.selectByParam",search);
     }
 
     /**

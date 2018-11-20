@@ -8,7 +8,9 @@ import com.laoxu.gamedog.service.order.OrderService;
 import com.laoxu.gamedog.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,14 +55,22 @@ public class OrderController {
         return result;
     }
 
-    @GetMapping("/chaxun")
-    public Result<List<Map<String, Object>>> list(@RequestBody Map<String,Object> param) {
-        if(param.size()==0){
+    @GetMapping("/search")
+    @ResponseBody
+    public Result<List<Map<String, Object>>> list(@RequestParam("ka") String search) {
+        if(StringUtils.isEmpty(search)){
             return ResultUtil.fail("查询参数为空！");
         }
 
-        List<Map<String, Object>> orders = orderService.list(param);
+        List<Map<String, Object>> orders = orderService.search(search);
 
         return ResultUtil.ok(orders);
+    }
+
+    @RequestMapping("/chaxun/{orderNo}")
+    public ModelAndView chaxun(@PathVariable("orderNo") String orderNo){
+        ModelAndView mv = new ModelAndView("trade/chaxun");
+        mv.addObject("orderNo",orderNo);
+        return mv;
     }
 }
