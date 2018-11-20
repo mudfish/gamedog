@@ -2,16 +2,16 @@ package com.laoxu.gamedog.controller.order;
 
 import com.laoxu.gamedog.framework.Result;
 import com.laoxu.gamedog.framework.ResultUtil;
+import com.laoxu.gamedog.framework.pagination.BtPagingResult;
 import com.laoxu.gamedog.model.order.Order;
 import com.laoxu.gamedog.service.order.OrderService;
 import com.laoxu.gamedog.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -33,5 +33,34 @@ public class OrderController {
 
         orderService.save(order);
         return ResultUtil.ok(result);
+    }
+
+    /**
+     * 获取订单列表（分页）
+     *
+     * @return
+     */
+    @GetMapping("/list")
+    @ResponseBody
+    public BtPagingResult<Map<String, Object>> list(@RequestParam("limit") Integer limit,
+                                                    @RequestParam("offset") Integer offset,
+                                                    @RequestParam("s_productId") Long productId,
+                                                    @RequestParam("s_orderNo") String orderNo) {
+        List<Map<String, Object>> orders = orderService.list(limit,offset,productId,orderNo);
+
+        BtPagingResult<Map<String, Object>> result = new BtPagingResult<>(orders);
+
+        return result;
+    }
+
+    @GetMapping("/chaxun")
+    public Result<List<Map<String, Object>>> list(@RequestBody Map<String,Object> param) {
+        if(param.size()==0){
+            return ResultUtil.fail("查询参数为空！");
+        }
+
+        List<Map<String, Object>> orders = orderService.list(param);
+
+        return ResultUtil.ok(orders);
     }
 }

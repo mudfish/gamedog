@@ -69,6 +69,19 @@ public class OrderService extends AbstractService {
         return selectList("orderMapper.selectByOrderTypeId",OrderTypeId);
     }
 
+    public List<Map<String,Object>> list(Integer limit, Integer offset, Long productId, String orderNo){
+        Map<String,Object> param = new HashMap<>();
+        param.put("limit", limit);
+        param.put("offset",offset);
+        param.put("productId",productId);
+        param.put("orderNo", orderNo);
+
+        return selectList("orderMapper.selectAll", param);
+    }
+
+    public List<Map<String, Object>> list(Map<String,Object> param){
+        return selectList("orderMapper.selectByParam",param);
+    }
 
     /**
      * 单查询

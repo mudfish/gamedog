@@ -13,6 +13,7 @@ import java.util.List;
  **/
 public class BtPagingResult<T> {
     private int total ;//总记录数
+    private int page; //页码
     private List<T> rows = new ArrayList<T>() ;//分页结果集
 
     /**
@@ -67,4 +68,19 @@ public class BtPagingResult<T> {
     }
 
 
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
 }
