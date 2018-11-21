@@ -67,9 +67,11 @@ public class OrderController {
         return ResultUtil.ok(orders);
     }
 
-    @RequestMapping("/chaxun/{orderNo}")
-    public ModelAndView chaxun(@PathVariable("orderNo") String orderNo){
+    @RequestMapping("/chaxun")
+    public ModelAndView chaxun(@RequestParam("orderNo") String orderNo){
         ModelAndView mv = new ModelAndView("trade/chaxun");
+        List<Map<String, Object>> orders = orderService.search(orderNo);
+        mv.addObject("orders", orders);
         mv.addObject("orderNo",orderNo);
         return mv;
     }
